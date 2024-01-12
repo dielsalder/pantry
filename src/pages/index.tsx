@@ -2,14 +2,38 @@ import { useAtomValue } from "jotai";
 import Head from "next/head";
 import Link from "next/link";
 import { userAtom } from "~/user";
-import { AppShell, Box, Loader, Space, Stack, Title } from "@mantine/core";
+import {
+  AppShell,
+  Box,
+  Button,
+  Group,
+  Loader,
+  Modal,
+  Space,
+  Stack,
+  Title,
+} from "@mantine/core";
 
 import { api } from "~/utils/api";
-import { Item } from "~/features/Item/Item";
+import { Item } from "~/features/Item";
+import { IconPlus } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
+import { ItemDetails } from "~/features/ItemDetails";
+import { getQueryKey } from "@trpc/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { NewItemDetails } from "~/features/NewItemDetails";
 
 export default function Home() {
   const userId = useAtomValue(userAtom);
+  const queryClient = useQueryClient();
   const { data, isLoading } = api.user.pantry.useQuery(userId);
+  const [opened, { open, close }] = useDisclosure();
+  const { mutate } = api.item.create.useMutation({
+    onSuccess: () => {
+      const queryKey = getQueryKey(api.user.pantry, userId);
+      queryClient.invalidateQueries(queryKey);
+    },
+  });
 
   return (
     <>
@@ -23,14 +47,22 @@ export default function Home() {
           <Title order={3}>jude food</Title>
         </AppShell.Header>
         <AppShell.Main>
-          <Title order={1} mb="md">
-            Pantry
-          </Title>
+          <Group justify="space-between">
+            <Title order={1} mb="lg">
+              Pantry
+            </Title>
+            <Button onClick={open} leftSection={<IconPlus />}>
+              Add
+            </Button>
+          </Group>
           {isLoading ? (
             <Loader />
           ) : (
             <Stack>{data?.map((item) => <Item id={item.id} />)}</Stack>
           )}
+          <Modal title="New Item" opened={opened} onClose={close}>
+            <NewItemDetails onSave={close} />
+          </Modal>
         </AppShell.Main>
       </AppShell>
     </>
