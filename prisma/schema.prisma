@@ -14,10 +14,11 @@ model User {
     id          String       @unique
     name        String?
     collections Collection[]
+    pantryId    String
 }
 
 model Collection {
-    id     Int    @id @default(autoincrement())
+    id     String @id @default(uuid())
     name   String
     items  Item[]
     User   User   @relation(fields: [userId], references: [id])
@@ -32,5 +33,5 @@ model Item {
     createdAt    DateTime   @default(now())
     updatedAt    DateTime   @updatedAt
     collection   Collection @relation(fields: [collectionId], references: [id])
-    collectionId Int
+    collectionId String
 }

@@ -9,7 +9,7 @@ import { MantineProvider } from "@mantine/core";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <MantineProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </MantineProvider>
   );
 };

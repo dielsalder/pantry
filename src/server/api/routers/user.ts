@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { randomUUID } from "crypto";
 
 export const userRouter = createTRPCRouter({
   get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
@@ -7,11 +8,15 @@ export const userRouter = createTRPCRouter({
   }),
   create: publicProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(({ ctx, input: { id } }) => {
+    .mutation(async ({ ctx, input: { id } }) => {
+      const pantryId = randomUUID();
       return ctx.db.user.create({
         data: {
           id,
-          collections: { create: { name: "Pantry", items: { create: [] } } },
+          pantryId,
+          collections: {
+            create: { name: "Pantry", items: { create: [] }, id: pantryId },
+          },
         },
       });
     }),

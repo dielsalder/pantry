@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-
 export const collectionRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ name: z.string(), userId: z.string() }))
@@ -8,12 +7,12 @@ export const collectionRouter = createTRPCRouter({
       return ctx.db.collection.create({ data: { userId, name } });
     }),
   get: publicProcedure
-    .input(z.number())
+    .input(z.string())
     .query(({ ctx, input }) =>
       ctx.db.collection.findUnique({ where: { id: input } }),
     ),
   delete: publicProcedure
-    .input(z.number())
+    .input(z.string())
     .mutation(({ ctx, input }) =>
       ctx.db.collection.delete({ where: { id: input } }),
     ),
