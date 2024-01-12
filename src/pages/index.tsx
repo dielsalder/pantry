@@ -5,6 +5,7 @@ import { userAtom } from "~/user";
 import { AppShell, Box, Loader, Space, Stack, Title } from "@mantine/core";
 
 import { api } from "~/utils/api";
+import { Item } from "~/features/Item/Item";
 
 export default function Home() {
   const userId = useAtomValue(userAtom);
@@ -28,7 +29,7 @@ export default function Home() {
           {isLoading ? (
             <Loader />
           ) : (
-            <Stack>{data?.map((item) => <Box>{item.name}</Box>)}</Stack>
+            <Stack>{data?.map((item) => <Item id={item.id} />)}</Stack>
           )}
         </AppShell.Main>
       </AppShell>

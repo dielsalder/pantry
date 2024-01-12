@@ -2,6 +2,11 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const itemRouter = createTRPCRouter({
+  read: publicProcedure
+    .input(z.number())
+    .query(({ ctx, input }) =>
+      ctx.db.item.findUnique({ where: { id: input } }),
+    ),
   create: publicProcedure
     .input(
       z.object({
@@ -26,7 +31,7 @@ export const itemRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const item = await ctx.db.item.findUnique({ where: { id: input.id } });
-      const data = { ...input, ...item };
+      const data = { ...item, ...input };
       return ctx.db.item.update({ where: { id: input.id }, data });
     }),
   delete: publicProcedure
