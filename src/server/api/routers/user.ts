@@ -1,23 +1,24 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { randomUUID } from "crypto";
 
 export const userRouter = createTRPCRouter({
-  get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  read: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.user.findUnique({ where: { id: input } });
   }),
   create: publicProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input: { id } }) => {
-      const pantryId = randomUUID();
       return ctx.db.user.create({
         data: {
           id,
-          pantryId,
+          pantryId: id,
           collections: {
-            create: { name: "Pantry", items: { create: [] }, id: pantryId },
+            create: { name: "Pantry", items: { create: [] }, id },
           },
         },
       });
     }),
+  pantry: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return await ctx.db.collection.findUnique({ where: { id: input } }).items();
+  }),
 });

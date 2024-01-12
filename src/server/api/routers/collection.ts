@@ -6,7 +6,7 @@ export const collectionRouter = createTRPCRouter({
     .mutation(({ ctx, input: { userId, name } }) => {
       return ctx.db.collection.create({ data: { userId, name } });
     }),
-  get: publicProcedure
+  read: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) =>
       ctx.db.collection.findUnique({ where: { id: input } }),

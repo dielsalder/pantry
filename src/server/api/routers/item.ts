@@ -8,7 +8,7 @@ export const itemRouter = createTRPCRouter({
         name: z.string(),
         quantity: z.nullable(z.number()),
         unit: z.nullable(z.string()),
-        collectionId: z.number(),
+        collectionId: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -21,7 +21,7 @@ export const itemRouter = createTRPCRouter({
         id: z.number(),
         quantity: z.optional(z.nullable(z.number())),
         unit: z.optional(z.nullable(z.string())),
-        collectionId: z.optional(z.number()),
+        collectionId: z.optional(z.string()),
       }),
     )
     .mutation(async ({ ctx, input }) => {

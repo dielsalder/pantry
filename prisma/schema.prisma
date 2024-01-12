@@ -18,7 +18,7 @@ model User {
 }
 
 model Collection {
-    id     String @id @default(uuid())
+    id     String @id @unique @default(uuid())
     name   String
     items  Item[]
     User   User   @relation(fields: [userId], references: [id])

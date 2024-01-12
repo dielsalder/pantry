@@ -7,8 +7,10 @@ async function main() {
 
     create: {
       id: "lazarus",
+      pantryId: "lazarus",
       collections: {
         create: {
+          id: "lazarus",
           name: "Pantry",
           items: {
             create: [
