@@ -2,11 +2,11 @@ import { db } from "../src/server/db";
 
 async function main() {
   await db.user.upsert({
-    where: { name: "lazarus", id: undefined },
+    where: { id: "lazarus" },
     update: {},
 
     create: {
-      name: "lazarus",
+      id: "lazarus",
       collections: {
         create: {
           name: "Pantry",
