@@ -1,15 +1,12 @@
 import { useAtomValue } from "jotai";
 import Head from "next/head";
-import Link from "next/link";
 import { userAtom } from "~/user";
 import {
   AppShell,
-  Box,
   Button,
   Group,
   Loader,
   Modal,
-  Space,
   Stack,
   Title,
 } from "@mantine/core";
@@ -22,18 +19,13 @@ import { ItemDetails } from "~/features/ItemDetails";
 import { getQueryKey } from "@trpc/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { NewItemDetails } from "~/features/NewItemDetails";
+import { Collection } from "~/features/Collection";
 
 export default function Home() {
   const userId = useAtomValue(userAtom);
   const queryClient = useQueryClient();
-  const { data, isLoading } = api.user.pantry.useQuery(userId);
+  const { data, isLoading } = api.user.items.useQuery(userId);
   const [opened, { open, close }] = useDisclosure();
-  const { mutate } = api.item.create.useMutation({
-    onSuccess: () => {
-      const queryKey = getQueryKey(api.user.pantry, userId);
-      queryClient.invalidateQueries(queryKey);
-    },
-  });
 
   return (
     <>
@@ -47,22 +39,7 @@ export default function Home() {
           <Title order={3}>jude food</Title>
         </AppShell.Header>
         <AppShell.Main>
-          <Group justify="space-between">
-            <Title order={1} mb="lg">
-              Pantry
-            </Title>
-            <Button onClick={open} leftSection={<IconPlus />}>
-              Add
-            </Button>
-          </Group>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <Stack>{data?.map((item) => <Item id={item.id} />)}</Stack>
-          )}
-          <Modal title="New Item" opened={opened} onClose={close}>
-            <NewItemDetails onSave={close} />
-          </Modal>
+          <Collection id={userId} />
         </AppShell.Main>
       </AppShell>
     </>

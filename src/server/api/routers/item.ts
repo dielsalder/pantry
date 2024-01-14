@@ -25,7 +25,7 @@ export const itemRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const collection = await ctx.db.collection.findFirst({
+      const collection = await ctx.db.collection.findUnique({
         where: { id: input.collectionId },
       });
       const userId = collection?.userId;

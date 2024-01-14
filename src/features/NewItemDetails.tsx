@@ -11,7 +11,7 @@ export function NewItemDetails({ onSave }: { onSave?: () => void }) {
   const queryClient = useQueryClient();
   const { mutate } = api.item.create.useMutation({
     onSuccess: () => {
-      const queryKey = getQueryKey(api.user.pantry, userId);
+      const queryKey = getQueryKey(api.collection);
       queryClient.invalidateQueries(queryKey);
     },
   });
