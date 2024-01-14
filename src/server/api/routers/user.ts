@@ -3,7 +3,10 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
   read: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.db.user.findUnique({ where: { id: input } });
+    return ctx.db.user.findUnique({
+      where: { id: input },
+      include: { collections: { select: { id: true } } },
+    });
   }),
   create: publicProcedure
     .input(z.object({ id: z.string() }))

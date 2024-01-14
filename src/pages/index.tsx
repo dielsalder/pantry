@@ -1,15 +1,7 @@
 import { useAtomValue } from "jotai";
 import Head from "next/head";
 import { userAtom } from "~/user";
-import {
-  AppShell,
-  Button,
-  Group,
-  Loader,
-  Modal,
-  Stack,
-  Title,
-} from "@mantine/core";
+import { AppShell, Button, Loader, Title } from "@mantine/core";
 
 import { api } from "~/utils/api";
 import { Item } from "~/features/Item";
@@ -23,9 +15,7 @@ import { Collection } from "~/features/Collection";
 
 export default function Home() {
   const userId = useAtomValue(userAtom);
-  const queryClient = useQueryClient();
-  const { data, isLoading } = api.user.items.useQuery(userId);
-  const [opened, { open, close }] = useDisclosure();
+  const { data, isLoading } = api.user.read.useQuery(userId);
 
   return (
     <>
@@ -39,7 +29,12 @@ export default function Home() {
           <Title order={3}>jude food</Title>
         </AppShell.Header>
         <AppShell.Main>
-          <Collection id={userId} />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            data?.collections.map(({ id }) => <Collection id={id} />)
+          )}
+          <Button>New Collection</Button>
         </AppShell.Main>
       </AppShell>
     </>
