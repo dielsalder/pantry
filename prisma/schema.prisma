@@ -15,6 +15,7 @@ model User {
     name        String?
     collections Collection[]
     pantryId    String
+    items       Item[]
 }
 
 model Collection {
@@ -34,4 +35,6 @@ model Item {
     updatedAt    DateTime   @updatedAt
     collection   Collection @relation(fields: [collectionId], references: [id])
     collectionId String
+    User         User       @relation(fields: [userId], references: [id])
+    userId       String
 }

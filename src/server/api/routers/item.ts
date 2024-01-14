@@ -24,8 +24,12 @@ export const itemRouter = createTRPCRouter({
         collectionId: z.string(),
       }),
     )
-    .mutation(({ ctx, input }) => {
-      return ctx.db.item.create({ data: { ...input } });
+    .mutation(async ({ ctx, input }) => {
+      const collection = await ctx.db.collection.findFirst({
+        where: { id: input.collectionId },
+      });
+      const userId = collection?.userId;
+      return ctx.db.item.create({ data: { ...input, userId } });
     }),
   update: publicProcedure.input(itemSchema).mutation(async ({ ctx, input }) => {
     const item = await ctx.db.item.findUnique({ where: { id: input.id } });

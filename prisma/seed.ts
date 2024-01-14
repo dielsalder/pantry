@@ -17,10 +17,12 @@ async function main() {
               {
                 name: "eggs",
                 quantity: 0,
+                userId: "lazarus",
               },
               {
                 name: "milk",
                 quantity: 1,
+                userId: "lazarus",
               },
             ],
           },
