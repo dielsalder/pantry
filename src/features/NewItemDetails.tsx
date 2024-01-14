@@ -12,9 +12,9 @@ export function NewItemDetails({
 }) {
   const queryClient = useQueryClient();
   const { mutate } = api.item.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       const queryKey = getQueryKey(api.collection);
-      queryClient.invalidateQueries(queryKey);
+      await queryClient.invalidateQueries(queryKey);
     },
   });
   const initialValues = {

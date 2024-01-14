@@ -4,11 +4,11 @@ import { api } from "~/utils/api";
 export function useEditItem() {
   const queryClient = useQueryClient();
   return api.item.update.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const queryKey = getQueryKey(api.item.read, data.id);
       queryClient.setQueryData(queryKey, data);
-      queryClient.cancelQueries({ queryKey });
-      queryClient.invalidateQueries({ queryKey });
+      await queryClient.cancelQueries({ queryKey });
+      await queryClient.invalidateQueries({ queryKey });
     },
   });
 }

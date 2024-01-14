@@ -45,7 +45,7 @@ import {
   IconSausage,
   IconSeeding,
   IconSoup,
-  TablerIconsProps,
+  type TablerIconsProps,
 } from "@tabler/icons-react";
 
 export const availableIcons = {

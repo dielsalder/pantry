@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
 import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
-import { Item } from "@prisma/client";
+import { type Item } from "@prisma/client";
 export function ItemDetails({
   onSave,
   onSubmit,
