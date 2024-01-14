@@ -1,13 +1,15 @@
 import { useForm } from "@mantine/form";
 import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
-import { Item } from "@prisma/client";
 import { api } from "~/utils/api";
 import { getQueryKey } from "@trpc/react-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { userAtom } from "~/user";
-export function NewItemDetails({ onSave }: { onSave?: () => void }) {
-  const userId = useAtomValue(userAtom);
+export function NewItemDetails({
+  onSave,
+  collectionId,
+}: {
+  onSave?: () => void;
+  collectionId: string;
+}) {
   const queryClient = useQueryClient();
   const { mutate } = api.item.create.useMutation({
     onSuccess: () => {
@@ -19,7 +21,7 @@ export function NewItemDetails({ onSave }: { onSave?: () => void }) {
     name: "",
     quantity: null,
     unit: null,
-    collectionId: userId,
+    collectionId,
   };
   const form = useForm({
     initialValues,

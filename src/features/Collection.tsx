@@ -20,9 +20,11 @@ export function Collection({ id }: { id: string }) {
           Add
         </Button>
       </Group>
-      <Stack>{data?.items.map((item) => <Item id={item.id} />)}</Stack>
+      <Stack>
+        {data?.items.map((item) => <Item id={item.id} key={item.id} />)}
+      </Stack>
       <Modal title="New Item" opened={opened} onClose={close}>
-        <NewItemDetails onSave={close} />
+        <NewItemDetails onSave={close} collectionId={id} />
       </Modal>
     </Stack>
   );
