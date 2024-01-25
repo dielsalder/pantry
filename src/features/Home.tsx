@@ -7,7 +7,6 @@ import {
   SegmentedControl,
   SimpleGrid,
   Stack,
-  Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -32,14 +31,32 @@ export function CollectionsLayout() {
   if (layout === "list")
     return (
       <Stack gap="lg">
-        {data?.collections.map(({ id }) => <Collection id={id} key={id} />)}
+        {data?.collections.map(({ id }) => (
+          <Collection id={id} key={id}>
+            <Group justify="space-between" align="stretch">
+              <Collection.Name />
+              <Collection.NewItem />
+            </Group>
+            <Collection.Items />
+          </Collection>
+        ))}
         <NewCollection />
       </Stack>
     );
   else if (layout === "column")
     return (
       <SimpleGrid cols={{ base: 1, sm: 3, lg: 4 }}>
-        {data?.collections.map(({ id }) => <Collection id={id} key={id} />)}
+        {data?.collections.map(({ id }) => (
+          <Collection id={id} key={id}>
+            <Stack>
+              <Group justify="space-between" align="stretch">
+                <Collection.Name />
+                <Collection.NewItem />
+              </Group>
+              <Collection.Items />
+            </Stack>
+          </Collection>
+        ))}
         <NewCollection />
       </SimpleGrid>
     );
