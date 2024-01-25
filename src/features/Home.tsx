@@ -42,7 +42,7 @@ export const Home = () => {
       <AppShell.Header p="md">
         <Group justify="space-between">
           <Group>
-            <Burger onClick={toggleNavbar} opened={!navbarOpened} />
+            <Burger onClick={toggleNavbar} opened={navbarOpened} />
             <Title order={3}>jude food</Title>
           </Group>
           <Group>
@@ -55,7 +55,9 @@ export const Home = () => {
               <Menu.Dropdown>
                 <Menu.Item
                   leftSection={<IconLogout />}
-                  onClick={() => void signOut()}
+                  onClick={() => {
+                    void signOut({ callbackUrl: "/login" });
+                  }}
                 >
                   Sign out
                 </Menu.Item>
