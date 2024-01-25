@@ -11,15 +11,13 @@ export default function App() {
         <title>pantry</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppShell header={{ height: "60" }} p="md">
-        {sessionData ? (
-          <Home />
-        ) : (
-          <AppShell.Main>
-            <Button onClick={() => void signIn()}>Sign in</Button>
-          </AppShell.Main>
-        )}
-      </AppShell>
+      {sessionData ? (
+        <Home />
+      ) : (
+        <AppShell.Main>
+          <Button onClick={() => void signIn()}>Sign in</Button>
+        </AppShell.Main>
+      )}
     </>
   );
 }

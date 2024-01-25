@@ -8,6 +8,7 @@ import "~/styles/globals.css";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { theme } from "~/theme";
+import { Layout } from "~/components/Layout";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -16,7 +17,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <MantineProvider theme={theme}>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
     </MantineProvider>
   );
