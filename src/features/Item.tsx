@@ -18,7 +18,7 @@ export function Item({ id }: { id: number }) {
   return (
     data && (
       <>
-        <Flex justify="space-between" align="flex-start">
+        <Flex justify="space-between" align="center">
           <Text>{data.name}</Text>
           <Flex align="center" gap="sm">
             {isLoading && <Loader size="sm" />}

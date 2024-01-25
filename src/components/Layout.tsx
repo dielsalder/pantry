@@ -17,7 +17,7 @@ export function Layout(props: PropsWithChildren) {
   const pathName = usePathname();
   return (
     <AppShell
-      header={{ height: "60" }}
+      header={{ height: "65" }}
       p="md"
       navbar={{
         collapsed: { desktop: !opened, mobile: !opened },

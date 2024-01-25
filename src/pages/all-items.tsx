@@ -1,13 +1,27 @@
-import { AppShell, Title } from "@mantine/core";
+import { AppShell, Center, Loader, Table, Title } from "@mantine/core";
 import { Header } from "~/components/Header";
+import { api } from "~/utils/api";
 
 export default function AllItems() {
+  const { data, isLoading } = api.user.items.useQuery();
+  const tableData = {
+    head: ["Name", "Quantity", "Unit", ""],
+    body: data?.map(({ name, quantity, unit }) => [name, quantity, unit]),
+  };
   return (
     <>
       <Header>
-        <Title order={3}>all items</Title>
+        <Title order={3}>All Items</Title>
       </Header>
-      <AppShell.Main>abc</AppShell.Main>
+      <AppShell.Main>
+        {isLoading ? (
+          <Center>
+            <Loader />
+          </Center>
+        ) : (
+          <Table data={tableData} />
+        )}
+      </AppShell.Main>
     </>
   );
 }
