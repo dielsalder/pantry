@@ -1,13 +1,13 @@
 import {
   AppShell,
   Button,
-  Container,
   Group,
   Loader,
   Modal,
   SegmentedControl,
   SimpleGrid,
   Stack,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -18,7 +18,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import { getQueryKey } from "@trpc/react-query";
 import { Header } from "~/components/Header";
-import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
+import {
+  IconLayoutColumns,
+  IconLayoutList,
+  IconNewSection,
+} from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
 
 const layoutAtom = atom("list");
@@ -29,19 +33,20 @@ export function CollectionsLayout() {
     return (
       <Stack gap="lg">
         {data?.collections.map(({ id }) => <Collection id={id} key={id} />)}
+        <NewCollection />
       </Stack>
     );
   else if (layout === "column")
     return (
       <SimpleGrid cols={{ base: 1, sm: 3, lg: 4 }}>
         {data?.collections.map(({ id }) => <Collection id={id} key={id} />)}
+        <NewCollection />
       </SimpleGrid>
     );
   else return null;
 }
-export const Home = () => {
-  const [layout, setLayout] = useAtom(layoutAtom);
-  const { isLoading } = api.user.read.useQuery();
+
+export function NewCollection() {
   const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure();
   const form = useForm({
@@ -53,6 +58,37 @@ export const Home = () => {
   const { mutate } = api.collection.create.useMutation({
     onSuccess: () => queryClient.invalidateQueries(getQueryKey(api.user.read)),
   });
+  return (
+    <>
+      <Button
+        onClick={open}
+        leftSection={<IconNewSection />}
+        variant="outline"
+        size="l"
+      >
+        New collection
+      </Button>
+      <Modal opened={opened} onClose={close} title="New Collection">
+        <form
+          onSubmit={form.onSubmit((data) => {
+            mutate(data.name);
+            close();
+          })}
+        >
+          <TextInput label="Name" {...form.getInputProps("name")} />
+          <Group justify="flex-end" mt="md">
+            <Button variant="filled" color="blue" type="submit">
+              Save
+            </Button>
+          </Group>
+        </form>
+      </Modal>
+    </>
+  );
+}
+export const Home = () => {
+  const [layout, setLayout] = useAtom(layoutAtom);
+  const { isLoading } = api.user.read.useQuery();
   return (
     <>
       <Header>
@@ -71,22 +107,6 @@ export const Home = () => {
       </Header>
       <AppShell.Main>
         {isLoading ? <Loader /> : <CollectionsLayout />}
-        <Button onClick={open}>New Collection</Button>
-        <Modal opened={opened} onClose={close} title="New Collection">
-          <form
-            onSubmit={form.onSubmit((data) => {
-              mutate(data.name);
-              close();
-            })}
-          >
-            <TextInput label="Name" {...form.getInputProps("name")} />
-            <Group justify="flex-end" mt="md">
-              <Button variant="filled" color="blue" type="submit">
-                Save
-              </Button>
-            </Group>
-          </form>
-        </Modal>
       </AppShell.Main>
     </>
   );
