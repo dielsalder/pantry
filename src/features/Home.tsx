@@ -1,9 +1,12 @@
 import {
+  ActionIcon,
   AppShell,
   Button,
   Group,
   Loader,
+  Menu,
   Modal,
+  Stack,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -14,6 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import { getQueryKey } from "@trpc/react-query";
+import { IconLogout, IconUserFilled } from "@tabler/icons-react";
 
 export const Home = () => {
   const { data: sessionData } = useSession();
@@ -34,19 +38,31 @@ export const Home = () => {
       <AppShell.Header p="md">
         <Group justify="space-between">
           <Title order={3}>jude food</Title>
-          <Button
-            onClick={sessionData ? () => void signOut() : () => void signIn()}
-          >
-            {sessionData ? "Sign out" : "Sign in"}
-          </Button>
+          <Menu>
+            <Menu.Target>
+              <ActionIcon variant="subtle">
+                <IconUserFilled />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                leftSection={<IconLogout />}
+                onClick={() => void signOut()}
+              >
+                Sign out
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </Group>
       </AppShell.Header>
       <AppShell.Main>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          data?.collections.map(({ id }) => <Collection id={id} key={id} />)
-        )}
+        <Stack gap="lg">
+          {isLoading ? (
+            <Loader />
+          ) : (
+            data?.collections.map(({ id }) => <Collection id={id} key={id} />)
+          )}
+        </Stack>
         <Button onClick={open}>New Collection</Button>
         <Modal opened={opened} onClose={close} title="New Collection">
           <form
