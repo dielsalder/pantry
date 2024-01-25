@@ -1,7 +1,10 @@
-import React, { type PropsWithChildren, useContext } from "react";
-import { Button, Loader, Modal, Stack, Title } from "@mantine/core";
+import React, {
+  type PropsWithChildren,
+  useContext,
+  type FunctionComponent,
+} from "react";
+import { ActionIcon, Loader, Modal, Stack, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
-import { Item } from "./Item";
 import { NewItemDetails } from "./NewItemDetails";
 import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
@@ -12,9 +15,9 @@ function NewItem() {
   const [opened, { open, close }] = useDisclosure();
   return (
     <>
-      <Button onClick={open} leftSection={<IconPlus />}>
-        Add
-      </Button>
+      <ActionIcon onClick={open} size="lg">
+        <IconPlus />
+      </ActionIcon>
       <Modal title="New Item" opened={opened} onClose={close}>
         <NewItemDetails onSave={close} collectionId={id} />
       </Modal>
@@ -28,14 +31,18 @@ function Name() {
   return isLoading ? <Loader /> : <Title order={3}>{data?.name}</Title>;
 }
 
-function Items() {
+function Items({
+  Component,
+}: {
+  Component: FunctionComponent<{ id: number }>;
+}) {
   const { id } = useContext(CollectionContext);
   const { data, isLoading } = api.collection.read.useQuery(id);
   return isLoading ? (
     <Loader />
   ) : (
     <Stack>
-      {data?.items.map((item) => <Item id={item.id} key={item.id} />)}
+      {data?.items.map((item) => <Component id={item.id} key={item.id} />)}
     </Stack>
   );
 }

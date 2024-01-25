@@ -2,6 +2,7 @@ import {
   Accordion,
   AppShell,
   Button,
+  Center,
   Group,
   Loader,
   Modal,
@@ -24,8 +25,22 @@ import {
   IconNewSection,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
+import { Item } from "./Item";
 
 const layoutAtom = atom("list");
+function ListItem({ id }: { id: number }) {
+  return (
+    <Item id={id}>
+      <Group justify="space-between" align="center">
+        <Item.Name />
+        <Group align="center" gap="sm">
+          <Item.Quantity />
+          <Item.Edit />
+        </Group>
+      </Group>
+    </Item>
+  );
+}
 export function CollectionsLayout() {
   const layout = useAtomValue(layoutAtom);
   const { data } = api.user.read.useQuery();
@@ -39,14 +54,14 @@ export function CollectionsLayout() {
           {data?.collections.map(({ id }) => (
             <Collection id={id} key={id}>
               <Accordion.Item key={id} value={id}>
-                <Accordion.Control>
-                  <Group justify="space-between" align="stretch" mr="lg">
+                <Center>
+                  <Accordion.Control>
                     <Collection.Name />
-                    <Collection.NewItem />
-                  </Group>
-                </Accordion.Control>
+                  </Accordion.Control>
+                  <Collection.NewItem />
+                </Center>
                 <Accordion.Panel>
-                  <Collection.Items />
+                  <Collection.Items Component={ListItem} />
                 </Accordion.Panel>
               </Accordion.Item>
             </Collection>
@@ -65,7 +80,7 @@ export function CollectionsLayout() {
                 <Collection.Name />
                 <Collection.NewItem />
               </Group>
-              <Collection.Items />
+              <Collection.Items Component={ListItem} />
             </Stack>
           </Collection>
         ))}
