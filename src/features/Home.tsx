@@ -21,6 +21,7 @@ import { getQueryKey } from "@trpc/react-query";
 import { IconLogout, IconUserFilled } from "@tabler/icons-react";
 import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
 import { useAtomValue } from "jotai";
+import { Header } from "~/components/Header";
 
 export const Home = () => {
   const toggleNavbar = useToggleNavbar();
@@ -39,33 +40,9 @@ export const Home = () => {
   });
   return (
     <>
-      <AppShell.Header p="md">
-        <Group justify="space-between">
-          <Group>
-            <Burger onClick={toggleNavbar} opened={navbarOpened} />
-            <Title order={3}>jude food</Title>
-          </Group>
-          <Group>
-            <Menu>
-              <Menu.Target>
-                <ActionIcon variant="subtle">
-                  <IconUserFilled />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item
-                  leftSection={<IconLogout />}
-                  onClick={() => {
-                    void signOut({ callbackUrl: "/login" });
-                  }}
-                >
-                  Sign out
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </Group>
-        </Group>
-      </AppShell.Header>
+      <Header>
+        <Title order={3}>jude food</Title>
+      </Header>
       <AppShell.Main>
         <Stack gap="lg">
           {isLoading ? (

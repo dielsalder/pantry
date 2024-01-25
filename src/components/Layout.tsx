@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from "react";
 import { AppShell, NavLink } from "@mantine/core";
 import { atom, useAtom, useAtomValue } from "jotai";
-import { IconHome2 } from "@tabler/icons-react";
+import { IconFridge, IconHome2 } from "@tabler/icons-react";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 export const navbarOpenedAtom = atom<boolean>(false);
@@ -28,7 +28,15 @@ export function Layout(props: PropsWithChildren) {
       </Head>
       {sessionData ? (
         <AppShell.Navbar>
-          <NavLink label="Home" leftSection={<IconHome2 size="1rem" />} />
+          <NavLink
+            label="Home"
+            leftSection={<IconHome2 size="1rem" href="/home" />}
+          />
+          <NavLink
+            label="All items"
+            leftSection={<IconFridge size="1rem" />}
+            href="/all-items"
+          />
         </AppShell.Navbar>
       ) : (
         <></>
