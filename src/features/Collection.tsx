@@ -12,7 +12,7 @@ export function Collection({ id }: { id: string }) {
     <Loader />
   ) : (
     <Stack>
-      <Group justify="space-between" align="stretch">
+      <Group justify="space-between" align="flex-start">
         <Title order={2} mb="lg">
           {data?.name}
         </Title>

@@ -23,6 +23,7 @@ export function Item({ id }: { id: number }) {
           <Flex align="center" gap="sm">
             {isLoading && <Loader size="sm" />}
             <NumberInput
+              style={{ width: "10rem" }}
               value={data.quantity ?? undefined}
               onChange={(value) => mutate({ id, quantity: value as number })}
               suffix={data.unit ? ` ${data.unit}` : ""}

@@ -1,10 +1,12 @@
 import {
   AppShell,
   Button,
+  Container,
   Group,
   Loader,
   Modal,
   SegmentedControl,
+  SimpleGrid,
   Stack,
   TextInput,
   Title,
@@ -31,9 +33,9 @@ export function CollectionsLayout() {
     );
   else if (layout === "column")
     return (
-      <Group gap="lg">
+      <SimpleGrid cols={{ base: 1, sm: 3, lg: 4 }}>
         {data?.collections.map(({ id }) => <Collection id={id} key={id} />)}
-      </Group>
+      </SimpleGrid>
     );
   else return null;
 }
