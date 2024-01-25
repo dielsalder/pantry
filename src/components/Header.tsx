@@ -1,12 +1,4 @@
-import {
-  ActionIcon,
-  AppShell,
-  Burger,
-  Grid,
-  Group,
-  Menu,
-  Title,
-} from "@mantine/core";
+import { ActionIcon, AppShell, Burger, Grid, Menu } from "@mantine/core";
 import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
 import { signOut } from "next-auth/react";
 import { useAtomValue } from "jotai";

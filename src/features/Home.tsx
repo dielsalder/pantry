@@ -1,4 +1,5 @@
 import {
+  Accordion,
   AppShell,
   Button,
   Group,
@@ -31,15 +32,26 @@ export function CollectionsLayout() {
   if (layout === "list")
     return (
       <Stack gap="lg">
-        {data?.collections.map(({ id }) => (
-          <Collection id={id} key={id}>
-            <Group justify="space-between" align="stretch">
-              <Collection.Name />
-              <Collection.NewItem />
-            </Group>
-            <Collection.Items />
-          </Collection>
-        ))}
+        <Accordion
+          multiple
+          defaultValue={data?.collections.map(({ id }) => id)}
+        >
+          {data?.collections.map(({ id }) => (
+            <Collection id={id} key={id}>
+              <Accordion.Item key={id} value={id}>
+                <Accordion.Control>
+                  <Group justify="space-between" align="stretch" mr="lg">
+                    <Collection.Name />
+                    <Collection.NewItem />
+                  </Group>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <Collection.Items />
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Collection>
+          ))}
+        </Accordion>
         <NewCollection />
       </Stack>
     );

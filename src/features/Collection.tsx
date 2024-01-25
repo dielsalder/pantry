@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, useContext } from "react";
-import { Button, Group, Loader, Modal, Stack, Title } from "@mantine/core";
+import React, { type PropsWithChildren, useContext } from "react";
+import { Button, Loader, Modal, Stack, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { Item } from "./Item";
 import { NewItemDetails } from "./NewItemDetails";
