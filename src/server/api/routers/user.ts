@@ -1,5 +1,4 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
   read: protectedProcedure.query(({ ctx }) => {
@@ -7,17 +6,6 @@ export const userRouter = createTRPCRouter({
     return ctx.db.user.findUnique({
       where: { id },
       include: { collections: { select: { id: true } } },
-    });
-  }),
-  create: protectedProcedure.mutation(async ({ ctx }) => {
-    const id = ctx.session.user.id;
-    return ctx.db.user.create({
-      data: {
-        id,
-        collections: {
-          create: { name: "Pantry", items: { create: [] }, id },
-        },
-      },
     });
   }),
   items: protectedProcedure.query(
