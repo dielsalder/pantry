@@ -20,14 +20,20 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
-  pantry: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return await ctx.db.collection.findUnique({ where: { id: input } }).items();
-  }),
-  items: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return ctx.db.user
-      .findUnique({
-        where: { id: input },
-      })
-      .items();
-  }),
+  items: protectedProcedure.query(
+    async ({
+      ctx: {
+        db,
+        session: {
+          user: { id },
+        },
+      },
+    }) => {
+      return db.user
+        .findUnique({
+          where: { id },
+        })
+        .items();
+    },
+  ),
 });
