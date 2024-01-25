@@ -1,10 +1,12 @@
 import { ActionIcon, Loader, NumberInput, Text, Modal } from "@mantine/core";
 import { api } from "~/utils/api";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { ItemDetails } from "./ItemDetails";
 import { useEditItem } from "./useEditItem";
 import { type PropsWithChildren, createContext, useContext } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from "@trpc/react-query";
 const IdContext = createContext(0);
 function Quantity() {
   const id = useContext(IdContext);
@@ -20,6 +22,30 @@ function Quantity() {
         suffix={data?.unit ? ` ${data?.unit}` : ""}
       />
     </>
+  );
+}
+
+function Delete() {
+  const id = useContext(IdContext);
+  const queryClient = useQueryClient();
+  const items = getQueryKey(api.user.items);
+  const { mutate, isLoading } = api.item.delete.useMutation({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(items);
+      await queryClient.invalidateQueries(
+        getQueryKey(api.collection.read, data.collectionId),
+      );
+    },
+  });
+  return (
+    <ActionIcon
+      color="red"
+      variant="subtle"
+      onClick={() => mutate(id)}
+      loading={isLoading}
+    >
+      <IconTrash />
+    </ActionIcon>
   );
 }
 
@@ -59,3 +85,4 @@ export function Item({ id, children }: PropsWithChildren<{ id: number }>) {
 Item.Name = Name;
 Item.Edit = Edit;
 Item.Quantity = Quantity;
+Item.Delete = Delete;

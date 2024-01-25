@@ -36,6 +36,20 @@ function ListItem({ id }: { id: number }) {
         <Group align="center" gap="sm">
           <Item.Quantity />
           <Item.Edit />
+          <Item.Delete />
+        </Group>
+      </Group>
+    </Item>
+  );
+}
+function ColumnItem({ id }: { id: number }) {
+  return (
+    <Item id={id}>
+      <Group justify="space-between" align="center">
+        <Item.Name />
+        <Group align="center" gap="sm">
+          <Item.Quantity />
+          <Item.Edit />
         </Group>
       </Group>
     </Item>
@@ -80,7 +94,7 @@ export function CollectionsLayout() {
                 <Collection.Name />
                 <Collection.NewItem />
               </Group>
-              <Collection.Items Component={ListItem} />
+              <Collection.Items Component={ColumnItem} />
             </Stack>
           </Collection>
         ))}
