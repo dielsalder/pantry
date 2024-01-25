@@ -1,9 +1,12 @@
-import { AppShell } from "@mantine/core";
+import { AppShell, Title } from "@mantine/core";
+import { Header } from "~/components/Header";
 
 export default function AllItems() {
   return (
     <>
-      <AppShell.Header>All Items</AppShell.Header>
+      <Header>
+        <Title order={3}>all items</Title>
+      </Header>
       <AppShell.Main>abc</AppShell.Main>
     </>
   );
