@@ -9,8 +9,8 @@ import {
 import { api } from "~/utils/api";
 import { IconPencil } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { useEditItem } from "./useEditItem";
 import { ItemDetails } from "./ItemDetails";
+import { useEditItem } from "./useEditItem";
 export function Item({ id }: { id: number }) {
   const { data } = api.item.read.useQuery(id);
   const { mutate, isLoading } = useEditItem();

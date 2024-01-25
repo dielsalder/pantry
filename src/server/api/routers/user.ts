@@ -1,34 +1,39 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
-  read: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  read: protectedProcedure.query(({ ctx }) => {
+    const id = ctx.session.user.id;
     return ctx.db.user.findUnique({
-      where: { id: input },
+      where: { id },
       include: { collections: { select: { id: true } } },
     });
   }),
-  create: publicProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input: { id } }) => {
-      return ctx.db.user.create({
-        data: {
-          id,
-          pantryId: id,
-          collections: {
-            create: { name: "Pantry", items: { create: [] }, id },
-          },
+  create: protectedProcedure.mutation(async ({ ctx }) => {
+    const id = ctx.session.user.id;
+    return ctx.db.user.create({
+      data: {
+        id,
+        collections: {
+          create: { name: "Pantry", items: { create: [] }, id },
         },
-      });
-    }),
-  pantry: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return await ctx.db.collection.findUnique({ where: { id: input } }).items();
+      },
+    });
   }),
-  items: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return ctx.db.user
-      .findUnique({
-        where: { id: input },
-      })
-      .items();
-  }),
+  items: protectedProcedure.query(
+    async ({
+      ctx: {
+        db,
+        session: {
+          user: { id },
+        },
+      },
+    }) => {
+      return db.user
+        .findUnique({
+          where: { id },
+        })
+        .items();
+    },
+  ),
 });

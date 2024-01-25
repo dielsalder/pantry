@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 const itemSchema = z.object({
   name: z.optional(z.string()),
@@ -10,12 +10,12 @@ const itemSchema = z.object({
 });
 
 export const itemRouter = createTRPCRouter({
-  read: publicProcedure
+  read: protectedProcedure
     .input(z.number())
     .query(({ ctx, input }) =>
       ctx.db.item.findUnique({ where: { id: input } }),
     ),
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
         name: z.string(),
@@ -25,18 +25,17 @@ export const itemRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const collection = await ctx.db.collection.findUnique({
-        where: { id: input.collectionId },
-      });
-      const userId = collection?.userId;
+      const userId = ctx.session.user.id;
       return ctx.db.item.create({ data: { ...input, userId } });
     }),
-  update: publicProcedure.input(itemSchema).mutation(async ({ ctx, input }) => {
-    const item = await ctx.db.item.findUnique({ where: { id: input.id } });
-    const data = { ...item, ...input };
-    return ctx.db.item.update({ where: { id: input.id }, data });
-  }),
-  delete: publicProcedure
+  update: protectedProcedure
+    .input(itemSchema)
+    .mutation(async ({ ctx, input }) => {
+      const item = await ctx.db.item.findUnique({ where: { id: input.id } });
+      const data = { ...item, ...input };
+      return ctx.db.item.update({ where: { id: input.id }, data });
+    }),
+  delete: protectedProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => ctx.db.item.delete({ where: { id: input } })),
 });
