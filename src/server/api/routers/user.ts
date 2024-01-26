@@ -8,6 +8,13 @@ export const userRouter = createTRPCRouter({
       include: { collections: { select: { id: true } } },
     });
   }),
+  foodGroups: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.user
+      .findUnique({
+        where: { id: ctx.session.user.id },
+      })
+      .foodGroups();
+  }),
   items: protectedProcedure.query(
     async ({
       ctx: {

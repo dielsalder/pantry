@@ -25,12 +25,21 @@ model FoodGroup {
     Item   Item[]
 }
 
+model FoodStage {
+    id     String  @id
+    name   String
+    Item   Item[]
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
+}
+
 model Item {
     id           Int        @id @default(autoincrement())
     name         String
     quantity     Int?
     unit         String?
     foodGroup    FoodGroup? @relation(fields: [foodGroupId], references: [id])
+    foodStage    FoodStage? @relation(fields: [foodStageId], references: [id])
     createdAt    DateTime   @default(now())
     updatedAt    DateTime   @updatedAt
     collection   Collection @relation(fields: [collectionId], references: [id])
@@ -38,6 +47,7 @@ model Item {
     User         User?      @relation(fields: [userId], references: [id])
     userId       String?
     foodGroupId  String?
+    foodStageId  String?
 }
 
 // Necessary for Next auth
@@ -78,6 +88,7 @@ model User {
     collections   Collection[]
     items         Item[]
     foodGroups    FoodGroup[]
+    foodStages    FoodStage[]
 }
 
 model VerificationToken {
