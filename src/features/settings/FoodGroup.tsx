@@ -8,7 +8,13 @@ import {
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconCircleDashed,
+  IconPencil,
+  IconTrash,
+  IconX,
+} from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
@@ -64,8 +70,12 @@ export function FoodGroup({ id }: { id: string }) {
     </Group>
   ) : (
     <Group justify="space-between">
-      <Group>
-        {data?.icon && <FoodGroupIcon type={data?.icon} size="1.2rem" />}
+      <Group gap="xs">
+        {data?.icon ? (
+          <FoodGroupIcon type={data?.icon} size="1.2rem" />
+        ) : (
+          <IconCircleDashed size="1.2rem" />
+        )}
         <Text>{data?.name}</Text>
       </Group>
       <ActionIcon variant="subtle" onClick={openEdit}>

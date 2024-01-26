@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 import { FoodGroupIcon, foodGroupIcons } from "./FoodGroupIcon";
 import { type FoodGroupIconType } from "@prisma/client";
+import { IconCircleDashed } from "@tabler/icons-react";
 
 export function FoodGroupIconSelect({
   value,
@@ -55,7 +56,11 @@ export function FoodGroupIconSelect({
               <FoodGroupIcon type={value} size="1.2rem" />
             </Center>
           ) : (
-            <Input.Placeholder>Icon</Input.Placeholder>
+            <Input.Placeholder>
+              <Center>
+                <IconCircleDashed size="1.2rem" />
+              </Center>
+            </Input.Placeholder>
           )}
         </InputBase>
       </Combobox.Target>
