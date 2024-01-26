@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from "react";
 import { AppShell, NavLink } from "@mantine/core";
 import { atom, useAtom, useAtomValue } from "jotai";
-import { IconFridge, IconHome2 } from "@tabler/icons-react";
+import { IconFridge, IconHome2, IconSettings } from "@tabler/icons-react";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
@@ -43,6 +43,13 @@ export function Layout(props: PropsWithChildren) {
             leftSection={<IconFridge size="1rem" />}
             href="/all-items"
             active={pathName === "/all-items"}
+            component={Link}
+          />
+          <NavLink
+            label="Settings"
+            leftSection={<IconSettings size="1rem" />}
+            href="/settings"
+            active={pathName === "/settings"}
             component={Link}
           />
         </AppShell.Navbar>

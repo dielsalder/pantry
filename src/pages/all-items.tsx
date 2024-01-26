@@ -11,7 +11,9 @@ export default function AllItems() {
   return (
     <>
       <Header>
-        <Title order={3}>All Items</Title>
+        <Title order={2} size="h3">
+          All Items
+        </Title>
       </Header>
       <AppShell.Main>
         {isLoading ? (

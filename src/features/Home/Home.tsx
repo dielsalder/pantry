@@ -26,7 +26,9 @@ export const Home = () => {
     <>
       <Header>
         <Group justify="space-between">
-          <Title order={3}>Home</Title>
+          <Title order={2} size="h3">
+            Home
+          </Title>
           <SegmentedControl
             size="xs"
             value={layout}
