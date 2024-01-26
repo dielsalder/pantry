@@ -15,6 +15,7 @@ import { NewCollection } from "./NewCollection";
 import { useDeleteCollection } from "../useDeleteCollection";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
+import { useOpenDeleteModal } from "./useOpenDeleteModal";
 
 function ListItem({ id }: { id: number }) {
   return (
@@ -32,21 +33,7 @@ function ListItem({ id }: { id: number }) {
 }
 
 function ListCollection({ id }: { id: string }) {
-  const { mutate: deleteCollection, isLoading: isDeleteLoading } =
-    useDeleteCollection();
-  const openDeleteModal = () =>
-    modals.openConfirmModal({
-      title: "Delete this collection",
-      confirmProps: { color: "red" },
-      children: (
-        <Text size="sm">
-          Are you sure you want to delete this collection? This action is
-          irreversible.
-        </Text>
-      ),
-      onConfirm: () => deleteCollection(id),
-      labels: { confirm: "Delete", cancel: "Cancel" },
-    });
+  const openDeleteModal = useOpenDeleteModal(id);
   return (
     <Collection id={id} key={id}>
       <Accordion.Item key={id} value={id}>
