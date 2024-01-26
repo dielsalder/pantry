@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { randomUUID } from "crypto";
 import { FoodGroupIconType } from "@prisma/client";
-
 export const foodGroupRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -27,7 +26,13 @@ export const foodGroupRouter = createTRPCRouter({
       ctx.db.foodGroup.delete({ where: { id: input } }),
     ),
   update: protectedProcedure
-    .input(z.object({ id: z.string(), name: z.optional(z.string()) }))
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.optional(z.string()),
+        icon: z.optional(z.nullable(z.nativeEnum(FoodGroupIconType))),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const previousData = await ctx.db.foodGroup.findUnique({
         where: { id: input.id },

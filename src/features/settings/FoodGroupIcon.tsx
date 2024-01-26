@@ -5,7 +5,7 @@ import {
   IconBread,
   IconCarrot,
   IconCheese,
-  IconEgg,
+  IconEggFried,
   IconMeat,
 } from "@tabler/icons-react";
 
@@ -16,7 +16,7 @@ const icons = {
   Bread: IconBread,
   Carrot: IconCarrot,
   Cheese: IconCheese,
-  Egg: IconEgg,
+  Egg: IconEggFried,
   Meat: IconMeat,
   Apple: IconApple,
 };

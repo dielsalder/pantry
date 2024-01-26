@@ -1,22 +1,19 @@
 import {
   Center,
-  CheckIcon,
   CloseButton,
   Combobox,
-  Group,
   Input,
   InputBase,
   useCombobox,
 } from "@mantine/core";
 import { FoodGroupIcon, foodGroupIcons } from "./FoodGroupIcon";
-import { FoodGroupIconType } from "@prisma/client";
-import { IconCheck } from "@tabler/icons-react";
+import { type FoodGroupIconType } from "@prisma/client";
 
 export function FoodGroupIconSelect({
   value,
   onChange,
 }: {
-  value: FoodGroupIconType | null;
+  value?: FoodGroupIconType | null;
   onChange: (value: FoodGroupIconType | null) => void;
 }) {
   const combobox = useCombobox();

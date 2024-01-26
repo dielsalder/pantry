@@ -13,6 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
 import { FoodGroupIcon } from "./FoodGroupIcon";
+import { FoodGroupIconSelect } from "./FoodGroupIconSelect";
 
 export function FoodGroup({ id }: { id: string }) {
   const { data } = api.foodGroup.read.useQuery(id);
@@ -45,7 +46,10 @@ export function FoodGroup({ id }: { id: string }) {
   };
   return isEditing ? (
     <Group justify="space-between">
-      <TextInput {...form.getInputProps("name")} />
+      <Group>
+        <FoodGroupIconSelect {...form.getInputProps("icon")} />
+        <TextInput {...form.getInputProps("name")} />
+      </Group>
       <ActionIconGroup>
         <ActionIcon variant="subtle" color="red" onClick={openDeleteModal}>
           <IconTrash />
@@ -61,7 +65,7 @@ export function FoodGroup({ id }: { id: string }) {
   ) : (
     <Group justify="space-between">
       <Group>
-        {data?.icon && <FoodGroupIcon type={data?.icon} />}
+        {data?.icon && <FoodGroupIcon type={data?.icon} size="1.2rem" />}
         <Text>{data?.name}</Text>
       </Group>
       <ActionIcon variant="subtle" onClick={openEdit}>
