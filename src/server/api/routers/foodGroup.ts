@@ -8,6 +8,7 @@ export const foodGroupRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         icon: z.nullable(z.nativeEnum(FoodGroupIconType)),
+        color: z.string(),
       }),
     )
     .mutation(({ ctx: { session, db }, input }) => {
@@ -31,6 +32,7 @@ export const foodGroupRouter = createTRPCRouter({
         id: z.string(),
         name: z.optional(z.string()),
         icon: z.optional(z.nullable(z.nativeEnum(FoodGroupIconType))),
+        color: z.optional(z.string()),
       }),
     )
     .mutation(async ({ ctx, input }) => {

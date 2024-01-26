@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   ActionIconGroup,
+  ColorSwatch,
   Group,
   Text,
   TextInput,
@@ -20,6 +21,7 @@ import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
 import { FoodGroupIcon } from "./FoodGroupIcon";
 import { FoodGroupIconSelect } from "./FoodGroupIconSelect";
+import FoodGroupColorPicker from "./FoodGroupColorPicker";
 
 export function FoodGroup({ id }: { id: string }) {
   const { data } = api.foodGroup.read.useQuery(id);
@@ -50,37 +52,46 @@ export function FoodGroup({ id }: { id: string }) {
     mutate({ ...form.values, id });
     closeEdit();
   };
-  return isEditing ? (
-    <Group justify="space-between">
-      <Group>
-        <FoodGroupIconSelect {...form.getInputProps("icon")} />
-        <TextInput {...form.getInputProps("name")} />
+  return (
+    data &&
+    (isEditing ? (
+      <Group justify="space-between">
+        <Group>
+          <FoodGroupIconSelect {...form.getInputProps("icon")} />
+          <TextInput {...form.getInputProps("name")} />
+          <FoodGroupColorPicker {...form.getInputProps("color")} />
+        </Group>
+        <ActionIconGroup>
+          <ActionIcon variant="subtle" color="red" onClick={openDeleteModal}>
+            <IconTrash />
+          </ActionIcon>
+          <ActionIcon variant="subtle" onClick={closeEdit}>
+            <IconX />
+          </ActionIcon>
+          <ActionIcon
+            variant="subtle"
+            loading={isLoading}
+            onClick={handleSubmit}
+          >
+            <IconCheck />
+          </ActionIcon>
+        </ActionIconGroup>
       </Group>
-      <ActionIconGroup>
-        <ActionIcon variant="subtle" color="red" onClick={openDeleteModal}>
-          <IconTrash />
+    ) : (
+      <Group justify="space-between">
+        <Group gap="xs">
+          {data?.icon ? (
+            <FoodGroupIcon type={data?.icon} size="1.2rem" />
+          ) : (
+            <IconCircleDashed size="1.2rem" />
+          )}
+          <Text>{data?.name}</Text>
+          <ColorSwatch color={data.color} size="1.2rem" />
+        </Group>
+        <ActionIcon variant="subtle" onClick={openEdit}>
+          <IconPencil />
         </ActionIcon>
-        <ActionIcon variant="subtle" onClick={closeEdit}>
-          <IconX />
-        </ActionIcon>
-        <ActionIcon variant="subtle" loading={isLoading} onClick={handleSubmit}>
-          <IconCheck />
-        </ActionIcon>
-      </ActionIconGroup>
-    </Group>
-  ) : (
-    <Group justify="space-between">
-      <Group gap="xs">
-        {data?.icon ? (
-          <FoodGroupIcon type={data?.icon} size="1.2rem" />
-        ) : (
-          <IconCircleDashed size="1.2rem" />
-        )}
-        <Text>{data?.name}</Text>
       </Group>
-      <ActionIcon variant="subtle" onClick={openEdit}>
-        <IconPencil />
-      </ActionIcon>
-    </Group>
+    ))
   );
 }

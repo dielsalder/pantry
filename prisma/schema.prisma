@@ -21,10 +21,10 @@ model FoodGroup {
     id     String             @id
     name   String
     icon   FoodGroupIconType?
+    color  String
     User   User?              @relation(fields: [userId], references: [id])
     userId String?
     Item   Item[]
-    color  String             @default("#FFFFFF")
 }
 
 enum FoodGroupIconType {
