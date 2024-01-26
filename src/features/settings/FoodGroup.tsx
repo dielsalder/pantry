@@ -1,8 +1,11 @@
 import {
   ActionIcon,
   ActionIconGroup,
+  Badge,
+  Chip,
   ColorSwatch,
   Group,
+  Pill,
   Text,
   TextInput,
 } from "@mantine/core";
@@ -55,7 +58,7 @@ export function FoodGroup({ id }: { id: string }) {
   return (
     data &&
     (isEditing ? (
-      <Group justify="space-between">
+      <Group>
         <Group>
           <FoodGroupIconSelect {...form.getInputProps("icon")} />
           <TextInput {...form.getInputProps("name")} />
@@ -78,16 +81,22 @@ export function FoodGroup({ id }: { id: string }) {
         </ActionIconGroup>
       </Group>
     ) : (
-      <Group justify="space-between">
-        <Group gap="xs">
-          {data?.icon ? (
-            <FoodGroupIcon type={data?.icon} size="1.2rem" />
-          ) : (
-            <IconCircleDashed size="1.2rem" />
-          )}
-          <Text>{data?.name}</Text>
-          <ColorSwatch color={data.color} size="1.2rem" />
-        </Group>
+      <Group>
+        <Chip
+          checked={true}
+          color={data.color}
+          variant="filled"
+          icon={
+            data?.icon ? (
+              <FoodGroupIcon type={data?.icon} size="1rem" />
+            ) : (
+              <IconCircleDashed size="1rem" />
+            )
+          }
+          size="md"
+        >
+          <Text fw={500}>{data?.name}</Text>
+        </Chip>
         <ActionIcon variant="subtle" onClick={openEdit}>
           <IconPencil />
         </ActionIcon>

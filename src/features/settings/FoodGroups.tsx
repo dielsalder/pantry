@@ -10,7 +10,7 @@ export function FoodGroups() {
   const [opened, { close, toggle }] = useDisclosure();
   return (
     <Stack gap="l">
-      <Group justify="space-between">
+      <Group>
         <Title order={3}>Food Groups</Title>
         <Button
           variant="subtle"

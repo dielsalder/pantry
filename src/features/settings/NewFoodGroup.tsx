@@ -41,7 +41,7 @@ export function NewFoodGroup({ onSubmit }: { onSubmit?: () => void }) {
         if (onSubmit) onSubmit();
       }}
     >
-      <Group justify="space-between">
+      <Group>
         <Group>
           <FoodGroupIconSelect
             value={form.values.icon}
