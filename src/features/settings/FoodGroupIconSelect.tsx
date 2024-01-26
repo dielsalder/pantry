@@ -1,6 +1,7 @@
 import {
   Center,
   CheckIcon,
+  CloseButton,
   Combobox,
   Group,
   Input,
@@ -16,7 +17,7 @@ export function FoodGroupIconSelect({
   onChange,
 }: {
   value: FoodGroupIconType | null;
-  onChange: (value: FoodGroupIconType) => void;
+  onChange: (value: FoodGroupIconType | null) => void;
 }) {
   const combobox = useCombobox();
   const options = foodGroupIcons.map((icon) => (
@@ -37,8 +38,19 @@ export function FoodGroupIconSelect({
           component="button"
           type="button"
           pointer
-          rightSection={<Combobox.Chevron />}
-          rightSectionPointerEvents="none"
+          rightSection={
+            value !== null ? (
+              <CloseButton
+                size="sm"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => onChange(null)}
+                aria-label="Clear value"
+              />
+            ) : (
+              <Combobox.Chevron />
+            )
+          }
+          rightSectionPointerEvents={value === null ? "none" : "all"}
           onClick={() => combobox.toggleDropdown()}
         >
           {value ? (
