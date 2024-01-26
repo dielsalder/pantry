@@ -35,7 +35,7 @@ function ColumnCollection({ id }: { id: string }) {
           <Collection.Name />
           <ActionIconGroup>
             <Collection.NewItem />
-            <Menu shadow="md" width={200}>
+            <Menu shadow="md" width={200} position="bottom-end">
               <Menu.Target>
                 <ActionIcon variant="subtle" size="md">
                   <IconDots />

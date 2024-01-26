@@ -5,17 +5,22 @@ import {
   Center,
   Group,
   Menu,
+  Modal,
   Stack,
-  Text,
+  TextInput,
 } from "@mantine/core";
 import { Item } from "../Item";
 import { Collection } from "../Collection";
 import { IconDots, IconSettings, IconTrashX } from "@tabler/icons-react";
 import { NewCollection } from "./NewCollection";
 import { useDeleteCollection } from "../useDeleteCollection";
-import { useDisclosure } from "@mantine/hooks";
-import { modals } from "@mantine/modals";
 import { useOpenDeleteModal } from "./useOpenDeleteModal";
+import { modals } from "@mantine/modals";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { useUpdateCollection } from "./useUpdateCollection";
+import { useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
+import { CollectionSettings } from "./CollectionSettings";
 
 function ListItem({ id }: { id: number }) {
   return (
@@ -34,38 +39,57 @@ function ListItem({ id }: { id: number }) {
 
 function ListCollection({ id }: { id: string }) {
   const openDeleteModal = useOpenDeleteModal(id);
+  const { data } = api.collection.read.useQuery(id);
+  const [settingsOpened, { open: openSettings, close: closeSettings }] =
+    useDisclosure();
   return (
-    <Collection id={id} key={id}>
-      <Accordion.Item key={id} value={id}>
-        <Center>
-          <Accordion.Control>
-            <Collection.Name />
-          </Accordion.Control>
-          <Collection.NewItem />
-          <Menu shadow="md" width={200}>
-            <Menu.Target>
-              <ActionIcon variant="subtle">
-                <IconDots />
-              </ActionIcon>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item leftSection={<IconSettings size={"1rem"} />}>
-                Settings
-              </Menu.Item>
-              <Menu.Item
-                leftSection={<IconTrashX size={"1rem"} />}
-                onClick={openDeleteModal}
-              >
-                Delete
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </Center>
-        <Accordion.Panel>
-          <Collection.Items Component={ListItem} />
-        </Accordion.Panel>
-      </Accordion.Item>
-    </Collection>
+    <>
+      <Modal
+        opened={settingsOpened}
+        onClose={closeSettings}
+        title="Collection Settings"
+      >
+        <CollectionSettings
+          initialValues={data!}
+          onSave={closeSettings}
+          onCancel={closeSettings}
+        />
+      </Modal>
+      <Collection id={id} key={id}>
+        <Accordion.Item key={id} value={id}>
+          <Center>
+            <Accordion.Control>
+              <Collection.Name />
+            </Accordion.Control>
+            <Collection.NewItem />
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <ActionIcon variant="subtle">
+                  <IconDots />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  onClick={openSettings}
+                  leftSection={<IconSettings size={"1rem"} />}
+                >
+                  Settings
+                </Menu.Item>
+                <Menu.Item
+                  leftSection={<IconTrashX size={"1rem"} />}
+                  onClick={openDeleteModal}
+                >
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Center>
+          <Accordion.Panel>
+            <Collection.Items Component={ListItem} />
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Collection>
+    </>
   );
 }
 export function List() {
