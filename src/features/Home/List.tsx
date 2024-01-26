@@ -7,7 +7,6 @@ import {
   Menu,
   Modal,
   Stack,
-  TextInput,
 } from "@mantine/core";
 import { Item } from "../Item";
 import { Collection } from "../Collection";
@@ -15,11 +14,7 @@ import { IconDots, IconSettings, IconTrashX } from "@tabler/icons-react";
 import { NewCollection } from "./NewCollection";
 import { useDeleteCollection } from "../useDeleteCollection";
 import { useOpenDeleteModal } from "./useOpenDeleteModal";
-import { modals } from "@mantine/modals";
-import { isNotEmpty, useForm } from "@mantine/form";
-import { useUpdateCollection } from "./useUpdateCollection";
 import { useDisclosure } from "@mantine/hooks";
-import { useEffect } from "react";
 import { CollectionSettings } from "./CollectionSettings";
 
 function ListItem({ id }: { id: number }) {

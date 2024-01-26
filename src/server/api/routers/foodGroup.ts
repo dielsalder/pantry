@@ -10,4 +10,20 @@ export const foodGroupRouter = createTRPCRouter({
         data: { id: randomUUID(), ...input, userId: session.user.id },
       });
     }),
+  read: protectedProcedure
+    .input(z.string())
+    .query(({ ctx, input }) =>
+      ctx.db.foodGroup.findUnique({ where: { id: input } }),
+    ),
+  update: protectedProcedure
+    .input(z.object({ id: z.string(), name: z.optional(z.string()) }))
+    .mutation(async ({ ctx, input }) => {
+      const previousData = await ctx.db.foodGroup.findUnique({
+        where: { id: input.id },
+      });
+      return ctx.db.foodGroup.update({
+        where: { id: input.id },
+        data: { ...previousData, ...input },
+      });
+    }),
 });

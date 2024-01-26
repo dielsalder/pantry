@@ -1,2 +1,2 @@
-import { Home } from "~/features/Home/Home";
+import { Home } from "~/features/home/Home";
 export default Home;
