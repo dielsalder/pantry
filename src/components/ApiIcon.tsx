@@ -103,4 +103,4 @@ export const Icon = ({
   const IconComponent = availableIcons[name];
   return <IconComponent {...props} />;
 };
-export type ApiIconProps<T> = TablerIconsProps & { name: T };
+export type ApiIconProps<T> = TablerIconsProps & { type: T };

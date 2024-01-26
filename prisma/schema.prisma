@@ -18,15 +18,15 @@ model Collection {
 }
 
 model FoodGroup {
-    id     String         @id
+    id     String             @id
     name   String
-    icon   FoodGroupIcon?
-    User   User?          @relation(fields: [userId], references: [id])
+    icon   FoodGroupIconType?
+    User   User?              @relation(fields: [userId], references: [id])
     userId String?
     Item   Item[]
 }
 
-enum FoodGroupIcon {
+enum FoodGroupIconType {
     Bread
     Carrot
     Cheese

@@ -8,13 +8,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import {
-  IconCheck,
-  IconPencil,
-  IconTrash,
-  IconTrashX,
-  IconX,
-} from "@tabler/icons-react";
+import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
