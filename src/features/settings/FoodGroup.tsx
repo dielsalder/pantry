@@ -12,6 +12,7 @@ import { IconCheck, IconPencil, IconTrash, IconX } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
+import { FoodGroupIcon } from "./FoodGroupIcon";
 
 export function FoodGroup({ id }: { id: string }) {
   const { data } = api.foodGroup.read.useQuery(id);
@@ -59,7 +60,10 @@ export function FoodGroup({ id }: { id: string }) {
     </Group>
   ) : (
     <Group justify="space-between">
-      <Text>{data?.name}</Text>
+      <Group>
+        {data?.icon && <FoodGroupIcon type={data?.icon} />}
+        <Text>{data?.name}</Text>
+      </Group>
       <ActionIcon variant="subtle" onClick={openEdit}>
         <IconPencil />
       </ActionIcon>
