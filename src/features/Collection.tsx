@@ -8,14 +8,14 @@ import { IconPlus } from "@tabler/icons-react";
 import { NewItemDetails } from "./NewItemDetails";
 import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
-const CollectionContext = React.createContext({ id: "" });
+export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
   const { id } = useContext(CollectionContext);
   const [opened, { open, close }] = useDisclosure();
   return (
     <>
-      <ActionIcon onClick={open} size="lg">
+      <ActionIcon onClick={open} size="lg" variant="subtle">
         <IconPlus />
       </ActionIcon>
       <Modal title="New Item" opened={opened} onClose={close}>
@@ -46,6 +46,7 @@ function Items({
     </Stack>
   );
 }
+
 export function Collection({
   id,
   children,

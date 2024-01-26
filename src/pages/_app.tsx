@@ -9,17 +9,20 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { theme } from "~/theme";
 import { Layout } from "~/components/Layout";
+import { ModalsProvider } from "@mantine/modals";
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
     <MantineProvider theme={theme}>
-      <SessionProvider session={session}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </SessionProvider>
+      <ModalsProvider>
+        <SessionProvider session={session}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SessionProvider>
+      </ModalsProvider>
     </MantineProvider>
   );
 };
