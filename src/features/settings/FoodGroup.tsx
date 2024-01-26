@@ -7,7 +7,14 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
+import {
+  IconCheck,
+  IconPencil,
+  IconTrash,
+  IconTrashX,
+  IconX,
+} from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
@@ -23,15 +30,31 @@ export function FoodGroup({ id }: { id: string }) {
     },
   });
 
+  const { mutate: deleteFoodGroup } = api.foodGroup.delete.useMutation({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(getQueryKey(api.user.foodGroups));
+    },
+  });
+  const openDeleteModal = () =>
+    modals.openConfirmModal({
+      title: "Delete food group",
+      children: <Text>Really delete this food group?</Text>,
+      onConfirm: () => deleteFoodGroup(id),
+      confirmProps: { color: "red" },
+      labels: { confirm: "Delete", cancel: "Cancel" },
+    });
+
   const handleSubmit = () => {
     mutate({ ...form.values, id });
-    console.log(form.values, id);
     closeEdit();
   };
   return isEditing ? (
     <Group justify="space-between">
       <TextInput {...form.getInputProps("name")} />
       <ActionIconGroup>
+        <ActionIcon variant="subtle" color="red" onClick={openDeleteModal}>
+          <IconTrash />
+        </ActionIcon>
         <ActionIcon variant="subtle" onClick={closeEdit}>
           <IconX />
         </ActionIcon>

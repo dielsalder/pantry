@@ -15,6 +15,11 @@ export const foodGroupRouter = createTRPCRouter({
     .query(({ ctx, input }) =>
       ctx.db.foodGroup.findUnique({ where: { id: input } }),
     ),
+  delete: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) =>
+      ctx.db.foodGroup.delete({ where: { id: input } }),
+    ),
   update: protectedProcedure
     .input(z.object({ id: z.string(), name: z.optional(z.string()) }))
     .mutation(async ({ ctx, input }) => {
