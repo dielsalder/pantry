@@ -47,7 +47,7 @@ function ListCollection({ id }: { id: string }) {
       <Modal
         opened={settingsOpened}
         onClose={closeSettings}
-        title="Collection Settings"
+        title="Edit collection"
       >
         <CollectionSettings
           initialValues={data!}
@@ -73,7 +73,7 @@ function ListCollection({ id }: { id: string }) {
                   onClick={openSettings}
                   leftSection={<IconSettings size={"1rem"} />}
                 >
-                  Settings
+                  Edit
                 </Menu.Item>
                 <Menu.Item
                   leftSection={<IconTrashX size={"1rem"} />}

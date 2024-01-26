@@ -1,5 +1,5 @@
 import { isNotEmpty, useForm } from "@mantine/form";
-import { Collection } from "@prisma/client";
+import { type Collection } from "@prisma/client";
 import { useUpdateCollection } from "./useUpdateCollection";
 import { Button, Group, Stack, TextInput } from "@mantine/core";
 
