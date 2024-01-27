@@ -24,8 +24,7 @@ model FoodGroup {
     color  String
     User   User?             @relation(fields: [userId], references: [id])
     userId String?
-    itemId Int?
-    Item   Item?             @relation(fields: [itemId], references: [id])
+    Items  Item[]
 }
 
 enum FoodGroupIconType {
