@@ -9,6 +9,9 @@ import {
   ChipGroup,
   Chip,
   useMantineTheme,
+  Tooltip,
+  Center,
+  Group,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
@@ -66,13 +69,15 @@ function FoodGroups() {
   const { data } = api.item.read.useQuery(id);
   const { colors } = useMantineTheme();
   return (
-    <ChipGroup>
-      {data?.foodGroups.map(({ icon, color, id }) => (
-        <Chip key={id} color={color} size="xs">
-          <FoodGroupIcon type={icon} size="1rem" color={colors.gray[6]} />
-        </Chip>
+    <>
+      {data?.foodGroups.map(({ icon, id, name }) => (
+        <Tooltip label={name} key={id} openDelay={200}>
+          <Pill size="md" py={2}>
+            <FoodGroupIcon type={icon} size="1rem" color={colors.gray[6]} />
+          </Pill>
+        </Tooltip>
       ))}
-    </ChipGroup>
+    </>
   );
 }
 
