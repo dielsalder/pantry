@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { sortByFoodGroup } from "../helpers/sortByFoodGroup";
 export const collectionRouter = createTRPCRouter({
   create: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
     return ctx.db.collection.create({
@@ -22,6 +23,29 @@ export const collectionRouter = createTRPCRouter({
       },
     });
   }),
+  items: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        sort: z.optional(z.enum(["name", "foodGroup"])),
+      }),
+    )
+    .query(async ({ ctx, input: { id, sort } }) => {
+      if (sort === "name") {
+        return ctx.db.item.findMany({
+          where: { collectionId: id },
+          orderBy: { name: "asc" },
+        });
+      }
+      if (sort === "foodGroup") {
+        const items = await ctx.db.item.findMany({
+          where: { collectionId: id },
+          include: { foodGroups: true },
+        });
+        return sortByFoodGroup(items);
+      }
+      return ctx.db.collection.findUnique({ where: { id } }).items();
+    }),
   delete: protectedProcedure
     .input(z.string())
     .mutation(({ ctx, input }) =>

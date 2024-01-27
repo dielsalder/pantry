@@ -12,16 +12,15 @@ import { IconCheck } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { api } from "~/utils/api";
-import { FoodGroupIcon, foodGroupIcons } from "./FoodGroupIcon";
 import { FoodGroupIconSelect } from "./FoodGroupIconSelect";
 import FoodGroupColorPicker from "./FoodGroupColorPicker";
 
 export function NewFoodGroup({ onSubmit }: { onSubmit?: () => void }) {
   const { colors } = useMantineTheme();
-  const form = useForm<Omit<FoodGroup, "userId" | "id">>({
+  const form = useForm<Omit<FoodGroup, "userId" | "id" | "itemId">>({
     initialValues: {
       name: "New Group",
-      icon: null,
+      icon: "Apple",
       color: colors.gray[3],
     },
   });

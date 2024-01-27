@@ -36,19 +36,8 @@ export function FoodGroupIconSelect({
           component="button"
           type="button"
           pointer
-          rightSection={
-            value !== null ? (
-              <CloseButton
-                size="sm"
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => onChange(null)}
-                aria-label="Clear value"
-              />
-            ) : (
-              <Combobox.Chevron />
-            )
-          }
-          rightSectionPointerEvents={value === null ? "none" : "all"}
+          rightSection={<Combobox.Chevron />}
+          rightSectionPointerEvents={"none"}
           onClick={() => combobox.toggleDropdown()}
         >
           {value ? (

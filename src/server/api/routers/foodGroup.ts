@@ -7,7 +7,7 @@ export const foodGroupRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        icon: z.nullable(z.nativeEnum(FoodGroupIconType)),
+        icon: z.nativeEnum(FoodGroupIconType),
         color: z.string(),
       }),
     )
@@ -31,7 +31,7 @@ export const foodGroupRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         name: z.optional(z.string()),
-        icon: z.optional(z.nullable(z.nativeEnum(FoodGroupIconType))),
+        icon: z.optional(z.nativeEnum(FoodGroupIconType)),
         color: z.optional(z.string()),
       }),
     )
