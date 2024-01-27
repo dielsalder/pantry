@@ -17,7 +17,9 @@ export const collectionRouter = createTRPCRouter({
   read: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.db.collection.findUnique({
       where: { id: input },
-      include: { items: true },
+      include: {
+        items: { include: { foodGroups: { orderBy: { name: "asc" } } } },
+      },
     });
   }),
   delete: protectedProcedure
