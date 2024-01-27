@@ -1,22 +1,20 @@
 import { useForm } from "@mantine/form";
-import {
-  Button,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Stack,
-  TextInput,
-} from "@mantine/core";
-import { type Item } from "@prisma/client";
+import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
 import { FoodGroupSelect } from "./FoodGroupSelect";
+type ItemInput = {
+  name: string;
+  quantity: number | null;
+  unit: string | null;
+  foodGroups: string[];
+};
 export function ItemDetails({
   onSave,
   onSubmit,
   initialValues,
 }: {
   onSave?: () => void;
-  onSubmit: (data: Item) => void;
-  initialValues?: Item;
+  onSubmit: (data: ItemInput) => void;
+  initialValues?: ItemInput;
 }) {
   const form = useForm({
     initialValues,

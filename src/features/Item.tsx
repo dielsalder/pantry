@@ -62,8 +62,11 @@ function Edit() {
       <Modal opened={opened} onClose={close} my="lg" title="Edit item">
         {data ? (
           <ItemDetails
-            initialValues={data}
-            onSubmit={(data) => mutate({ ...data, id })}
+            initialValues={{
+              ...data,
+              foodGroups: data.foodGroups.map(({ id }) => id),
+            }}
+            onSubmit={(values) => mutate({ ...values, id })}
             onSave={close}
           />
         ) : (

@@ -14,7 +14,10 @@ export const itemRouter = createTRPCRouter({
   read: protectedProcedure
     .input(z.number())
     .query(({ ctx, input }) =>
-      ctx.db.item.findUnique({ where: { id: input } }),
+      ctx.db.item.findUnique({
+        where: { id: input },
+        include: { foodGroups: true },
+      }),
     ),
   create: protectedProcedure
     .input(
@@ -41,7 +44,6 @@ export const itemRouter = createTRPCRouter({
     .input(itemSchema)
     .mutation(async ({ ctx, input }) => {
       const item = await ctx.db.item.findUnique({ where: { id: input.id } });
-      console.log(input.foodGroups);
       const data = {
         ...item,
         ...input,
