@@ -35,6 +35,8 @@ enum FoodGroupIconType {
     Egg
     Meat
     Apple
+    Soup
+    Bottle
 }
 
 model FoodPrep {
