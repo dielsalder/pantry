@@ -12,6 +12,7 @@ export function FoodGroupSelect(props: MultiSelectProps) {
           label: foodGroup.name,
           value: foodGroup.id,
         }))}
+        searchable
         clearable
       />
     )
