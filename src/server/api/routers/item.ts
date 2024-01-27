@@ -11,14 +11,12 @@ const itemSchema = z.object({
 });
 
 export const itemRouter = createTRPCRouter({
-  read: protectedProcedure
-    .input(z.number())
-    .query(({ ctx, input }) =>
-      ctx.db.item.findUnique({
-        where: { id: input },
-        include: { foodGroups: true },
-      }),
-    ),
+  read: protectedProcedure.input(z.number()).query(({ ctx, input }) =>
+    ctx.db.item.findUnique({
+      where: { id: input },
+      include: { foodGroups: true },
+    }),
+  ),
   create: protectedProcedure
     .input(
       z.object({
@@ -44,6 +42,11 @@ export const itemRouter = createTRPCRouter({
     .input(itemSchema)
     .mutation(async ({ ctx, input }) => {
       const item = await ctx.db.item.findUnique({ where: { id: input.id } });
+      // replace with the new foodGroups
+      await ctx.db.item.update({
+        where: { id: input.id },
+        data: { foodGroups: { set: [] } },
+      });
       const data = {
         ...item,
         ...input,

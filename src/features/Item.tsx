@@ -4,14 +4,9 @@ import {
   NumberInput,
   Text,
   Modal,
-  PillGroup,
   Pill,
-  ChipGroup,
-  Chip,
   useMantineTheme,
   Tooltip,
-  Center,
-  Group,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
@@ -83,12 +78,17 @@ function FoodGroups() {
 
 function Edit() {
   const id = useContext(IdContext);
-  const { mutate } = useEditItem();
+  const { mutate, isLoading } = useEditItem();
   const { data } = api.item.read.useQuery(id);
   const [opened, { open, close }] = useDisclosure();
   return (
     <>
-      <ActionIcon aria-label="Edit" variant="subtle" onClick={open}>
+      <ActionIcon
+        aria-label="Edit"
+        variant="subtle"
+        onClick={open}
+        loading={isLoading}
+      >
         <IconPencil />
       </ActionIcon>
       <Modal opened={opened} onClose={close} my="lg" title="Edit item">
