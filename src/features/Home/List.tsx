@@ -23,6 +23,7 @@ function ListItem({ id }: { id: number }) {
       <Group justify="space-between" align="center">
         <Item.Name />
         <Group align="center" gap="sm">
+          <Item.FoodGroups />
           <Item.Quantity />
           <Item.Edit />
           <Item.Delete />

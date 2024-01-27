@@ -1,4 +1,15 @@
-import { ActionIcon, Loader, NumberInput, Text, Modal } from "@mantine/core";
+import {
+  ActionIcon,
+  Loader,
+  NumberInput,
+  Text,
+  Modal,
+  PillGroup,
+  Pill,
+  ChipGroup,
+  Chip,
+  useMantineTheme,
+} from "@mantine/core";
 import { api } from "~/utils/api";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
@@ -7,6 +18,7 @@ import { useEditItem } from "./useEditItem";
 import { type PropsWithChildren, createContext, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
+import { FoodGroupIcon } from "./settings/FoodGroupIcon";
 const IdContext = createContext(0);
 function Quantity() {
   const id = useContext(IdContext);
@@ -46,6 +58,21 @@ function Delete() {
     >
       <IconTrash />
     </ActionIcon>
+  );
+}
+
+function FoodGroups() {
+  const id = useContext(IdContext);
+  const { data } = api.item.read.useQuery(id);
+  const { colors } = useMantineTheme();
+  return (
+    <ChipGroup>
+      {data?.foodGroups.map(({ icon, color, id }) => (
+        <Chip key={id} color={color} size="xs">
+          <FoodGroupIcon type={icon} size="1rem" color={colors.gray[6]} />
+        </Chip>
+      ))}
+    </ChipGroup>
   );
 }
 
@@ -89,3 +116,4 @@ Item.Name = Name;
 Item.Edit = Edit;
 Item.Quantity = Quantity;
 Item.Delete = Delete;
+Item.FoodGroups = FoodGroups;
