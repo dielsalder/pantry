@@ -3,6 +3,7 @@ import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
 import { api } from "~/utils/api";
 import { getQueryKey } from "@trpc/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { FoodGroupSelect } from "./FoodGroupSelect";
 export function NewItemDetails({
   onSave,
   collectionId,
@@ -22,6 +23,7 @@ export function NewItemDetails({
     quantity: null,
     unit: null,
     collectionId,
+    foodGroups: [],
   };
   const form = useForm({
     initialValues,
@@ -44,6 +46,7 @@ export function NewItemDetails({
             defaultValue={""}
           />
         </Group>
+        <FoodGroupSelect {...form.getInputProps("foodGroups")} />
         <Group justify="flex-end" mt="md">
           <Button variant="filled" color="blue" type="submit">
             Save

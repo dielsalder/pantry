@@ -1,6 +1,14 @@
 import { useForm } from "@mantine/form";
-import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  MultiSelect,
+  NumberInput,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { type Item } from "@prisma/client";
+import { FoodGroupSelect } from "./FoodGroupSelect";
 export function ItemDetails({
   onSave,
   onSubmit,
@@ -12,6 +20,7 @@ export function ItemDetails({
 }) {
   const form = useForm({
     initialValues,
+    validate: { name: (value) => value.length < 0 },
   });
   return (
     <Stack>
@@ -30,6 +39,8 @@ export function ItemDetails({
             defaultValue={""}
           />
         </Group>
+        <FoodGroupSelect {...form.getInputProps("foodGroups")} />
+
         <Group justify="flex-end" mt="md">
           <Button variant="filled" color="blue" type="submit">
             Save
