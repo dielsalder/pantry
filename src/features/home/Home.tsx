@@ -12,13 +12,16 @@ import {
   Title,
   Popover,
   Stack,
+  ActionIcon,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import {
   IconCheck,
+  IconFilter,
   IconLayoutColumns,
   IconLayoutList,
+  IconSortDescending,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { List } from "./List";
@@ -44,7 +47,14 @@ function Filter() {
   return (
     <Popover position="bottom-start" width={280}>
       <Popover.Target>
-        <Button variant="subtle">Filter</Button>
+        <Button variant="subtle" visibleFrom="md">
+          Filter
+        </Button>
+      </Popover.Target>
+      <Popover.Target>
+        <ActionIcon variant="subtle" hiddenFrom="md">
+          <IconFilter />
+        </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown>
         <Stack gap="xs">
@@ -87,16 +97,22 @@ export const Home = () => {
           <Title order={2} size="h3">
             Home
           </Title>
-          <Group>
+          <Group justify="center" align="center">
             <Filter />
             <Menu position="bottom-start">
               <Menu.Target>
                 <Button
                   variant="subtle"
                   rightSection={<SortIcon type={currentSort} />}
+                  visibleFrom="md"
                 >
                   Sort
                 </Button>
+              </Menu.Target>
+              <Menu.Target>
+                <ActionIcon variant="subtle" hiddenFrom="md">
+                  <IconSortDescending />
+                </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
                 {sorts.map((sort) => (
@@ -115,6 +131,7 @@ export const Home = () => {
             </Menu>
             <SegmentedControl
               size="xs"
+              visibleFrom="md"
               value={layout}
               onChange={setLayout}
               data={[
