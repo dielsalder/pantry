@@ -17,6 +17,8 @@ import { type PropsWithChildren, createContext, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { FoodGroupIcon } from "./settings/FoodGroupIcon";
+import { useAtomValue } from "jotai";
+import { selectedFoodGroupsAtom } from "./home/selectedFoodGroups";
 const IdContext = createContext(0);
 function Quantity() {
   const id = useContext(IdContext);
@@ -62,13 +64,19 @@ function Delete() {
 function FoodGroups() {
   const id = useContext(IdContext);
   const { data } = api.item.read.useQuery(id);
-  const { colors } = useMantineTheme();
+  const selected = useAtomValue(selectedFoodGroupsAtom);
   return (
     <>
-      {data?.foodGroups.map(({ icon, id, name }) => (
+      {data?.foodGroups.map(({ icon, id, name, color }) => (
         <Tooltip label={name} key={id} openDelay={200}>
-          <Pill size="md" py={2}>
-            <FoodGroupIcon type={icon} size="1rem" color={colors.gray[6]} />
+          <Pill size="md" py={2} bg={selected.includes(id) ? color : ""}>
+            <FoodGroupIcon
+              type={icon}
+              size="1rem"
+              color={
+                selected.includes(id) ? "white" : "var(--mantine-color-dimmed)"
+              }
+            />
           </Pill>
         </Tooltip>
       ))}
