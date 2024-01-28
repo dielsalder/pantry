@@ -10,7 +10,6 @@ import {
   SegmentedControl,
   Text,
   Title,
-  Container,
   Popover,
   Stack,
 } from "@mantine/core";

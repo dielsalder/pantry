@@ -5,7 +5,6 @@ import {
   Text,
   Modal,
   Pill,
-  useMantineTheme,
   Tooltip,
 } from "@mantine/core";
 import { api } from "~/utils/api";
@@ -26,8 +25,9 @@ function Quantity() {
   const { data } = api.item.read.useQuery(id);
   return (
     <>
-      {isLoading && <Loader size="sm" />}
+      {isLoading && <Loader size="xs" mr="2px" />}
       <NumberInput
+        ml={isLoading ? 0 : "xl"}
         style={{ width: "10rem" }}
         value={data?.quantity ?? undefined}
         onChange={(value) => mutate({ id, quantity: value as number })}
@@ -36,7 +36,6 @@ function Quantity() {
     </>
   );
 }
-
 function Delete() {
   const id = useContext(IdContext);
   const queryClient = useQueryClient();
