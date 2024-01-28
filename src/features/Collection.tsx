@@ -11,7 +11,6 @@ import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";
 import { sortAtom } from "./home/sortAtom";
 import { selectedFoodGroupsAtom } from "./home/selectedFoodGroups";
-import { Item, Prisma } from "@prisma/client";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
@@ -49,6 +48,7 @@ function Items({
       sort,
     },
     {
+      keepPreviousData: true,
       select: (data) => {
         if (selectedFoodGroups.length) {
           return data.filter((item) => {
