@@ -1,11 +1,8 @@
 import {
   ActionIcon,
   ActionIconGroup,
-  Badge,
   Chip,
-  ColorSwatch,
   Group,
-  Pill,
   Text,
   TextInput,
 } from "@mantine/core";
