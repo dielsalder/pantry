@@ -15,8 +15,8 @@ import {
   IconLayoutList,
   IconList,
   IconSortAZ,
-  IconSortAscending,
-  IconSortDescending,
+  IconSortAscending2,
+  IconSortDescending2,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { List } from "./List";
@@ -60,7 +60,22 @@ export const Home = () => {
                   onClick={() => setSort("foodGroup")}
                   leftSection={<IconApple size="1.2rem" />}
                 >
-                  Food groups
+                  Food group
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setSort("oldestFirst");
+                    console.log("click");
+                  }}
+                  leftSection={<IconSortAscending2 size="1.2rem" />}
+                >
+                  Oldest first
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => setSort("newestFirst")}
+                  leftSection={<IconSortDescending2 size="1.2rem" />}
+                >
+                  Newest first
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>

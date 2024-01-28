@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { sortByFoodGroup } from "../helpers/sortByFoodGroup";
-const sorts = ["name", "foodGroup"] as const;
+const sorts = ["name", "foodGroup", "oldestFirst", "newestFirst"] as const;
 export type Sort = (typeof sorts)[number];
 export const collectionRouter = createTRPCRouter({
   create: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
@@ -35,14 +35,24 @@ export const collectionRouter = createTRPCRouter({
           where: { collectionId: id },
           orderBy: { name: "asc" },
         });
-      }
-      if (sort === "foodGroup") {
+      } else if (sort === "foodGroup") {
         const items = await ctx.db.item.findMany({
           where: { collectionId: id },
           include: { foodGroups: true },
         });
         return sortByFoodGroup(items);
+      } else if (sort === "oldestFirst") {
+        return ctx.db.item.findMany({
+          where: { collectionId: id },
+          orderBy: { createdAt: "asc" },
+        });
+      } else if (sort === "newestFirst") {
+        return ctx.db.item.findMany({
+          where: { collectionId: id },
+          orderBy: { createdAt: "desc" },
+        });
       }
+
       return ctx.db.collection.findUnique({ where: { id } }).items();
     }),
   delete: protectedProcedure
