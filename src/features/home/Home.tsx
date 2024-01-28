@@ -47,14 +47,7 @@ function Filter() {
   return (
     <Popover position="bottom-start" width={280}>
       <Popover.Target>
-        <Button variant="subtle" visibleFrom="md">
-          Filter
-        </Button>
-      </Popover.Target>
-      <Popover.Target>
-        <ActionIcon variant="subtle" hiddenFrom="md">
-          <IconFilter />
-        </ActionIcon>
+        <Button variant="subtle">Filter</Button>
       </Popover.Target>
       <Popover.Dropdown>
         <Stack gap="xs">
@@ -104,15 +97,9 @@ export const Home = () => {
                 <Button
                   variant="subtle"
                   rightSection={<SortIcon type={currentSort} />}
-                  visibleFrom="md"
                 >
                   Sort
                 </Button>
-              </Menu.Target>
-              <Menu.Target>
-                <ActionIcon variant="subtle" hiddenFrom="md">
-                  <IconSortDescending />
-                </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
                 {sorts.map((sort) => (
