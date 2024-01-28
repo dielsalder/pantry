@@ -52,7 +52,7 @@ function Delete() {
     onSuccess: async (data) => {
       await queryClient.invalidateQueries(items);
       await queryClient.invalidateQueries(
-        getQueryKey(api.collection.read, data.collectionId),
+        getQueryKey(api.collection.items, { id: data.collectionId }),
       );
     },
   });

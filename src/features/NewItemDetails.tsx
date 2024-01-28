@@ -12,7 +12,7 @@ export function NewItemDetails({
   const queryClient = useQueryClient();
   const { mutate } = api.item.create.useMutation({
     onSuccess: async () => {
-      const queryKey = getQueryKey(api.collection);
+      const queryKey = getQueryKey(api.collection.items, { id: collectionId });
       await queryClient.invalidateQueries(queryKey);
     },
   });
