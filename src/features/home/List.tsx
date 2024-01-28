@@ -20,9 +20,9 @@ import { CollectionSettings } from "./CollectionSettings";
 function ListItem({ id }: { id: number }) {
   return (
     <Item id={id}>
-      <Group justify="space-between" align="center">
+      <Group justify="space-between" align="center" wrap="nowrap">
         <Item.Name />
-        <Group align="center" gap="sm">
+        <Group align="center" gap="sm" wrap="nowrap">
           <Item.FoodGroups />
           <Item.Quantity />
           <Item.Edit />

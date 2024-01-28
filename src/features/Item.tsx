@@ -6,6 +6,7 @@ import {
   Modal,
   Pill,
   Tooltip,
+  Group,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
@@ -28,10 +29,17 @@ function Quantity() {
       {isLoading && <Loader size="xs" mr="2px" />}
       <NumberInput
         ml={isLoading ? 0 : "xl"}
-        style={{ width: "10rem" }}
+        w="10rem"
         value={data?.quantity ?? undefined}
         onChange={(value) => mutate({ id, quantity: value as number })}
         suffix={data?.unit ? ` ${data?.unit}` : ""}
+        visibleFrom="md"
+      />
+      <NumberInput
+        w="4rem"
+        value={data?.quantity ?? undefined}
+        onChange={(value) => mutate({ id, quantity: value as number })}
+        hiddenFrom="md"
       />
     </>
   );
@@ -66,19 +74,35 @@ function FoodGroups() {
   const selected = useAtomValue(selectedFoodGroupsAtom);
   return (
     <>
-      {data?.foodGroups.map(({ icon, id, name, color }) => (
-        <Tooltip label={name} key={id} openDelay={200}>
-          <Pill size="md" py={2} bg={selected.includes(id) ? color : ""}>
-            <FoodGroupIcon
-              type={icon}
-              size="1rem"
-              color={
-                selected.includes(id) ? "white" : "var(--mantine-color-dimmed)"
-              }
-            />
-          </Pill>
-        </Tooltip>
-      ))}
+      <Group visibleFrom="sm">
+        {data?.foodGroups.map(({ icon, id, name, color }) => (
+          <Tooltip label={name} key={id} openDelay={200}>
+            <Pill size="md" py={2} bg={selected.includes(id) ? color : ""}>
+              <FoodGroupIcon
+                type={icon}
+                size="1rem"
+                color={
+                  selected.includes(id)
+                    ? "white"
+                    : "var(--mantine-color-dimmed)"
+                }
+              />
+            </Pill>
+          </Tooltip>
+        ))}
+      </Group>
+      <Group hiddenFrom="sm" gap="2px" justify="flex-end">
+        {data?.foodGroups.map(({ icon, id, color }) => (
+          <FoodGroupIcon
+            key={id}
+            type={icon}
+            size="1rem"
+            color={
+              selected.includes(id) ? color : "var(--mantine-color-dimmed)"
+            }
+          />
+        ))}
+      </Group>
     </>
   );
 }
