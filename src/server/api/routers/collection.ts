@@ -29,30 +29,35 @@ export const collectionRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input: { id, sort } }) => {
+      const where = { collectionId: id };
+      const include = { foodGroups: true };
       if (sort === "name") {
         return ctx.db.item.findMany({
-          where: { collectionId: id },
+          where,
           orderBy: { name: "asc" },
+          include,
         });
       } else if (sort === "foodGroup") {
         const items = await ctx.db.item.findMany({
-          where: { collectionId: id },
-          include: { foodGroups: true },
+          where,
+          include,
         });
         return sortByFoodGroup(items);
       } else if (sort === "oldestFirst") {
         return ctx.db.item.findMany({
-          where: { collectionId: id },
+          where,
           orderBy: { createdAt: "asc" },
+          include,
         });
       } else if (sort === "newestFirst") {
         return ctx.db.item.findMany({
-          where: { collectionId: id },
+          where,
           orderBy: { createdAt: "desc" },
+          include,
         });
       }
 
-      return ctx.db.collection.findUnique({ where: { id } }).items();
+      return ctx.db.item.findMany({ where, include });
     }),
   delete: protectedProcedure
     .input(z.string())

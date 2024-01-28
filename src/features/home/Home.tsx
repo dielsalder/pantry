@@ -1,11 +1,18 @@
 import {
   AppShell,
   Button,
+  Chip,
+  ChipGroup,
+  Flex,
   Group,
   Loader,
   Menu,
   SegmentedControl,
+  Text,
   Title,
+  Container,
+  Popover,
+  Stack,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
@@ -19,6 +26,8 @@ import { List } from "./List";
 import { Columns } from "./Columns";
 import { SortIcon, SortName, sortAtom } from "./sortAtom";
 import { sorts } from "~/server/api/routers/sort";
+import { selectedFoodGroupsAtom } from "./selectedFoodGroups";
+import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 
 const layoutAtom = atom("list");
 export function CollectionsLayout() {
@@ -26,6 +35,47 @@ export function CollectionsLayout() {
   if (layout === "list") return <List />;
   else if (layout === "column") return <Columns />;
   else return null;
+}
+
+function Filter() {
+  const [selectedFoodGroups, setSelectedFoodGroups] = useAtom(
+    selectedFoodGroupsAtom,
+  );
+  const { data, isLoading } = api.user.foodGroups.useQuery();
+  return (
+    <Popover position="bottom-start" width={280}>
+      <Popover.Target>
+        <Button variant="subtle">Filter</Button>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Stack gap="xs">
+          <Text c="var(--mantine-color-dimmed)" size="xs" fw={500}>
+            By food group
+          </Text>
+          <ChipGroup
+            multiple
+            value={selectedFoodGroups}
+            onChange={setSelectedFoodGroups}
+          >
+            <Flex direction="row" wrap="wrap" gap="xs">
+              {isLoading ? (
+                <Loader />
+              ) : (
+                data?.map(({ id, name, color, icon }) => (
+                  <Chip key={id} value={id} color={color} size="sm">
+                    <Group justify="center" gap="4px">
+                      <Text>{name}</Text>
+                      <FoodGroupIcon type={icon} size="1rem" />
+                    </Group>
+                  </Chip>
+                ))
+              )}
+            </Flex>
+          </ChipGroup>
+        </Stack>
+      </Popover.Dropdown>
+    </Popover>
+  );
 }
 export const Home = () => {
   const [layout, setLayout] = useAtom(layoutAtom);
@@ -39,6 +89,7 @@ export const Home = () => {
             Home
           </Title>
           <Group>
+            <Filter />
             <Menu position="bottom-start">
               <Menu.Target>
                 <Button

@@ -10,6 +10,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";
 import { sortAtom } from "./home/sortAtom";
+import { selectedFoodGroupsAtom } from "./home/selectedFoodGroups";
+import { Item, Prisma } from "@prisma/client";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
@@ -40,7 +42,25 @@ function Items({
 }) {
   const { id } = useContext(CollectionContext);
   const sort = useAtomValue(sortAtom);
-  const { data, isLoading } = api.collection.items.useQuery({ id, sort });
+  const selectedFoodGroups = useAtomValue(selectedFoodGroupsAtom);
+  const { data, isLoading } = api.collection.items.useQuery(
+    {
+      id,
+      sort,
+    },
+    {
+      select: (data) => {
+        if (selectedFoodGroups.length) {
+          return data.filter((item) => {
+            for (const foodGroup of item.foodGroups) {
+              if (selectedFoodGroups.includes(foodGroup.id)) return true;
+            }
+            return false;
+          });
+        } else return data;
+      },
+    },
+  );
   return isLoading ? (
     <Loader />
   ) : (
