@@ -9,21 +9,12 @@ import {
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
-import {
-  IconApple,
-  IconLayoutColumns,
-  IconLayoutList,
-  IconList,
-  IconSortAZ,
-  IconSortAscending2,
-  IconSortDescending2,
-} from "@tabler/icons-react";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { IconLayoutColumns, IconLayoutList } from "@tabler/icons-react";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { List } from "./List";
 import { Columns } from "./Columns";
-import { Sort } from "~/server/api/routers/collection";
+import { SortIcon, sortAtom } from "./sortAtom";
 
-export const sortAtom = atom<Sort>("name");
 const layoutAtom = atom("list");
 export function CollectionsLayout() {
   const layout = useAtomValue(layoutAtom);
@@ -34,7 +25,7 @@ export function CollectionsLayout() {
 export const Home = () => {
   const [layout, setLayout] = useAtom(layoutAtom);
   const { isLoading } = api.user.read.useQuery();
-  const setSort = useSetAtom(sortAtom);
+  const [sort, setSort] = useAtom(sortAtom);
   return (
     <>
       <Header>
@@ -45,35 +36,37 @@ export const Home = () => {
           <Group>
             <Menu position="bottom-start">
               <Menu.Target>
-                <Button variant="subtle" leftSection={<IconList />}>
-                  Sort
+                <Button
+                  variant="subtle"
+                  rightSection={<SortIcon type={sort} />}
+                >
+                  Sort by
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item
                   onClick={() => setSort("name")}
-                  leftSection={<IconSortAZ size="1.2rem" />}
+                  leftSection={<SortIcon type="name" size="1.2rem" />}
                 >
                   Name
                 </Menu.Item>
                 <Menu.Item
                   onClick={() => setSort("foodGroup")}
-                  leftSection={<IconApple size="1.2rem" />}
+                  leftSection={<SortIcon type="foodGroup" size="1.2rem" />}
                 >
                   Food group
                 </Menu.Item>
                 <Menu.Item
                   onClick={() => {
                     setSort("oldestFirst");
-                    console.log("click");
                   }}
-                  leftSection={<IconSortAscending2 size="1.2rem" />}
+                  leftSection={<SortIcon type="oldestFirst" size="1.2rem" />}
                 >
                   Oldest first
                 </Menu.Item>
                 <Menu.Item
                   onClick={() => setSort("newestFirst")}
-                  leftSection={<IconSortDescending2 size="1.2rem" />}
+                  leftSection={<SortIcon type="newestFirst" size="1.2rem" />}
                 >
                   Newest first
                 </Menu.Item>

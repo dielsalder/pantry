@@ -9,7 +9,7 @@ import { NewItemDetails } from "./NewItemDetails";
 import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";
-import { sortAtom } from "./home/Home";
+import { sortAtom } from "./home/sortAtom";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
