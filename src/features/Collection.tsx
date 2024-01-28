@@ -8,6 +8,8 @@ import { IconPlus } from "@tabler/icons-react";
 import { NewItemDetails } from "./NewItemDetails";
 import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
+import { useAtomValue } from "jotai";
+import { sortAtom } from "./home/Home";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
@@ -37,12 +39,13 @@ function Items({
   Component: FunctionComponent<{ id: number }>;
 }) {
   const { id } = useContext(CollectionContext);
-  const { data, isLoading } = api.collection.read.useQuery(id);
+  const sort = useAtomValue(sortAtom);
+  const { data, isLoading } = api.collection.items.useQuery({ id, sort });
   return isLoading ? (
     <Loader />
   ) : (
     <Stack>
-      {data?.items.map((item) => <Component id={item.id} key={item.id} />)}
+      {data?.map((item) => <Component id={item.id} key={item.id} />)}
     </Stack>
   );
 }
