@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { sortByFoodGroup } from "../helpers/sortByFoodGroup";
-const sorts = ["name", "foodGroup", "oldestFirst", "newestFirst"] as const;
-export type Sort = (typeof sorts)[number];
+import { sorts } from "./sort";
 export const collectionRouter = createTRPCRouter({
   create: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
     return ctx.db.collection.create({
