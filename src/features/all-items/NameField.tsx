@@ -1,4 +1,11 @@
-import { ActionIcon, FocusTrap, Group, Text, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  FocusTrap,
+  Group,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -15,6 +22,7 @@ export function NameField({ name, id }: { name: string; id: number }) {
           <FocusTrap>
             <TextInput
               value={value}
+              onChange={(event) => setValue(event.target.value)}
               w="6.5rem"
               onKeyDown={(event) => {
                 if (event.key === "Escape") setEditing(false);
@@ -43,18 +51,18 @@ export function NameField({ name, id }: { name: string; id: number }) {
           </Group>
         </>
       ) : (
-        <>
-          <Text fz="sm">{name} </Text>
-          {hovered && (
-            <ActionIcon
-              variant="transparent"
-              size="sm"
-              onClick={() => setEditing(true)}
-            >
-              <IconPencil />
-            </ActionIcon>
-          )}
-        </>
+        <Button
+          variant="transparent"
+          rightSection={hovered && <IconPencil size="1.4rem" />}
+          fullWidth
+          justify="space-between"
+          px={0}
+          onClick={() => setEditing(true)}
+        >
+          <Text fz="sm" c="dark">
+            {name}
+          </Text>
+        </Button>
       )}
     </Group>
   );
