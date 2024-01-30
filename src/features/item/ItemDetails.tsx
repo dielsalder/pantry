@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
 import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
-import { FoodGroupSelect } from "./FoodGroupSelect";
+import { FoodGroupSelect } from "../FoodGroupSelect";
 type ItemInput = {
   name: string;
   quantity: number | null;

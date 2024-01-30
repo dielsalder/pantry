@@ -9,7 +9,7 @@ import {
 import { api } from "~/utils/api";
 import { Collection } from "../Collection";
 import { NewCollection } from "./NewCollection";
-import { Item } from "../Item";
+import { Item } from "../item/Item";
 import { IconDots, IconSettings, IconTrashX } from "@tabler/icons-react";
 import { useOpenDeleteModal } from "./useOpenDeleteModal";
 

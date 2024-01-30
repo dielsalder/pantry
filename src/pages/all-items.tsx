@@ -7,6 +7,7 @@ import { atom, useAtom } from "jotai";
 import { type Prisma } from "@prisma/client";
 import { type ItemsTableSort } from "~/server/api/routers/itemsTableSorts";
 import { FoodGroupIcon } from "~/features/settings/FoodGroupIcon";
+import { NameField } from "~/features/all-items/NameField";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -38,14 +39,19 @@ export default function AllItems() {
           fz="sm"
           verticalSpacing="xs"
           records={data as ItemPayload[]}
+          highlightOnHover
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
           columns={[
-            { accessor: "name", sortable: true },
+            {
+              accessor: "name",
+              sortable: true,
+              width: "13rem",
+              render: ({ name, id }) => <NameField name={name} id={id} />,
+            },
             {
               accessor: "foodGroups",
               sortable: true,
-              title: "Food groups",
               render: ({ foodGroups }) =>
                 foodGroups.map(({ icon, name, id }) => (
                   <Pill size="sm" key={id}>
@@ -59,7 +65,6 @@ export default function AllItems() {
             {
               accessor: "collection",
               sortable: true,
-              title: "Collection",
               render: ({ collection }) => collection.name,
             },
             {
@@ -71,12 +76,10 @@ export default function AllItems() {
             {
               accessor: "quantity",
               sortable: true,
-              title: "Quantity",
             },
             {
               accessor: "unit",
               sortable: true,
-              title: "Unit",
             },
           ]}
         />

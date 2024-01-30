@@ -5,7 +5,7 @@ import React, {
 } from "react";
 import { ActionIcon, Loader, Modal, Stack, Title } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
-import { NewItemDetails } from "./NewItemDetails";
+import { NewItemDetails } from "./item/NewItemDetails";
 import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";

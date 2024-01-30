@@ -8,7 +8,7 @@ import {
   Modal,
   Stack,
 } from "@mantine/core";
-import { Item } from "../Item";
+import { Item } from "../item/Item";
 import { Collection } from "../Collection";
 import { IconDots, IconSettings, IconTrashX } from "@tabler/icons-react";
 import { NewCollection } from "./NewCollection";

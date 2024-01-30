@@ -11,14 +11,14 @@ import {
 import { api } from "~/utils/api";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { ItemDetails } from "./ItemDetails";
-import { useEditItem } from "./useEditItem";
+import { ItemDetails } from "../item/ItemDetails";
+import { useEditItem } from "../item/useEditItem";
 import { type PropsWithChildren, createContext, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
-import { FoodGroupIcon } from "./settings/FoodGroupIcon";
+import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { useAtomValue } from "jotai";
-import { selectedFoodGroupsAtom } from "./home/selectedFoodGroups";
+import { selectedFoodGroupsAtom } from "../home/selectedFoodGroups";
 const IdContext = createContext(0);
 function Quantity() {
   const id = useContext(IdContext);
