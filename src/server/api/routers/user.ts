@@ -24,11 +24,13 @@ export const userRouter = createTRPCRouter({
         },
       },
     }) => {
-      return db.user
-        .findUnique({
-          where: { id },
-        })
-        .items();
+      return db.item.findMany({
+        where: { userId: id },
+        include: {
+          foodGroups: true,
+          collection: { select: { name: true, id: true } },
+        },
+      });
     },
   ),
 });

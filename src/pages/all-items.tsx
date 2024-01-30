@@ -1,13 +1,11 @@
 import { AppShell, Center, Loader, Table, Title } from "@mantine/core";
 import { Header } from "~/components/Header";
 import { api } from "~/utils/api";
+import { DataTable } from "mantine-datatable";
+import { format } from "date-fns";
 
 export default function AllItems() {
   const { data, isLoading } = api.user.items.useQuery();
-  const tableData = {
-    head: ["Name", "Quantity", "Unit", ""],
-    body: data?.map(({ name, quantity, unit }) => [name, quantity, unit]),
-  };
   return (
     <>
       <Header>
@@ -16,13 +14,29 @@ export default function AllItems() {
         </Title>
       </Header>
       <AppShell.Main>
-        {isLoading ? (
-          <Center>
-            <Loader />
-          </Center>
-        ) : (
-          <Table data={tableData} />
-        )}
+        <DataTable
+          fetching={isLoading}
+          records={data}
+          columns={[
+            { accessor: "name" },
+            {
+              accessor: "foodGroups",
+              title: "Food groups",
+              render: ({ foodGroups }) =>
+                foodGroups.map((foodGroup) => foodGroup.name),
+            },
+            {
+              accessor: "collections",
+              title: "Collection",
+              render: ({ collection }) => collection.name,
+            },
+            {
+              accessor: "createdAt",
+              title: "Date added",
+              render: ({ createdAt }) => format(createdAt, "M/dd/yyyy"),
+            },
+          ]}
+        />
       </AppShell.Main>
     </>
   );
