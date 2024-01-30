@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 
 type ItemSortable = Prisma.ItemGetPayload<{ include: { foodGroups: true } }>;
 function compareItems(a: ItemSortable, b: ItemSortable): number {
