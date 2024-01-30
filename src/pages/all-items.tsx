@@ -1,4 +1,4 @@
-import { AppShell, Title } from "@mantine/core";
+import { AppShell, Pill, Title, Group } from "@mantine/core";
 import { Header } from "~/components/Header";
 import { api } from "~/utils/api";
 import { DataTable, type DataTableSortStatus } from "mantine-datatable";
@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { atom, useAtom } from "jotai";
 import { type Prisma } from "@prisma/client";
 import { type ItemsTableSort } from "~/server/api/routers/itemsTableSorts";
+import { FoodGroupIcon } from "~/features/settings/FoodGroupIcon";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -31,7 +32,11 @@ export default function AllItems() {
       </Header>
       <AppShell.Main>
         <DataTable
+          striped
+          withRowBorders={false}
           fetching={isLoading}
+          fz="sm"
+          verticalSpacing="xs"
           records={data as ItemPayload[]}
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
@@ -42,7 +47,14 @@ export default function AllItems() {
               sortable: true,
               title: "Food groups",
               render: ({ foodGroups }) =>
-                foodGroups.map((foodGroup) => foodGroup.name),
+                foodGroups.map(({ icon, name, id }) => (
+                  <Pill size="sm" key={id}>
+                    <Group gap="2px">
+                      <FoodGroupIcon type={icon} size="0.8rem" />
+                      {name}
+                    </Group>
+                  </Pill>
+                )),
             },
             {
               accessor: "collection",
