@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  Button,
-  FocusTrap,
-  Group,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
 import {
   useClickOutside,
   useFocusTrap,
@@ -35,20 +28,26 @@ export function NameField({ name, id }: { name: string; id: number }) {
     setEditing(false);
   };
   const [focusInput, setFocusInput] = useState(false);
-  const focusTrapRef = useFocusTrap(true);
+  const focusTrapRef = useFocusTrap(focusInput);
   const clickOutsideRef = useClickOutside(() => setEditing(false));
-  const ref = useMergedRef(hoverRef, clickOutsideRef);
+  const containerRef = useMergedRef(hoverRef, clickOutsideRef);
   return (
-    <Group ref={ref} justify="space-between">
+    <Group
+      ref={containerRef}
+      justify="space-between"
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setEditing(false);
+        else if (event.key === "Tab") setFocusInput(false);
+      }}
+    >
       {editing ? (
         <>
           <TextInput
+            ref={focusTrapRef}
             value={value}
             onChange={(event) => setValue(event.target.value)}
             w="6.5rem"
-            onKeyDown={(event) => {
-              if (event.key === "Escape") setEditing(false);
-            }}
+            onBlur={() => setFocusInput(false)}
             data-autoFocus
           />
           <Group gap="xs">
@@ -80,7 +79,10 @@ export function NameField({ name, id }: { name: string; id: number }) {
           fullWidth
           justify="space-between"
           px={0}
-          onClick={() => setEditing(true)}
+          onClick={() => {
+            setEditing(true);
+            setFocusInput(true);
+          }}
         >
           <Text fz="sm" c="dark">
             {name}
