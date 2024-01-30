@@ -17,14 +17,14 @@ export function NameField({ name, id }: { name: string; id: number }) {
   const [value, setValue] = useState(name);
   useEffect(() => setValue(name), [name, setValue]);
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = api.item.update.useMutation({
+  const { mutateAsync, isLoading } = api.item.update.useMutation({
     onSuccess: async () => {
       await queryClient.invalidateQueries(getQueryKey(api.user.items));
       await queryClient.invalidateQueries(getQueryKey(api.item.read, id));
     },
   });
-  const handleSubmit = () => {
-    mutate({ id, name: value });
+  const handleSubmit = async () => {
+    await mutateAsync({ id, name: value });
     setEditing(false);
   };
   const [focusInput, setFocusInput] = useState(false);
@@ -56,6 +56,7 @@ export function NameField({ name, id }: { name: string; id: number }) {
               variant="subtle"
               onBlur={() => setEditing(false)}
               onClick={handleSubmit}
+              loading={isLoading}
             >
               <IconCheck />
             </ActionIcon>
