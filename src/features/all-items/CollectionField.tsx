@@ -1,8 +1,8 @@
-import { Button, FocusTrap, Loader, Select, Text } from "@mantine/core";
-import { IconPencil } from "@tabler/icons-react";
-import { useDisclosure, useHover } from "@mantine/hooks";
+import { FocusTrap, Loader, Select, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useEditTableItem } from "./useEditTableItem";
+import { EditableCell } from "./EditableCell";
 
 export function CollectionField({
   collectionName,
@@ -14,7 +14,6 @@ export function CollectionField({
   itemId: number;
 }) {
   const [editing, { open, close, toggle }] = useDisclosure();
-  const { hovered, ref: hoverRef } = useHover();
   const { mutateAsync, isLoading } = useEditTableItem();
   const handleChange = async (value: string | null) => {
     close();
@@ -22,7 +21,7 @@ export function CollectionField({
   };
   const { data } = api.user.collections.useQuery();
   return (
-    <div ref={hoverRef}>
+    <div>
       {editing ? (
         data ? (
           <FocusTrap>
@@ -39,19 +38,11 @@ export function CollectionField({
           <Loader />
         )
       ) : (
-        <Button
-          variant="transparent"
-          rightSection={hovered && <IconPencil size="1.4rem" />}
-          fullWidth
-          justify="space-between"
-          px={0}
-          onClick={open}
-          loading={isLoading}
-        >
+        <EditableCell onClick={open} loading={isLoading}>
           <Text fz="sm" c="dark">
             {collectionName}
           </Text>
-        </Button>
+        </EditableCell>
       )}
     </div>
   );

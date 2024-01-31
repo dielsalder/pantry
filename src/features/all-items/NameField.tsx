@@ -1,16 +1,11 @@
-import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
-import {
-  useClickOutside,
-  useFocusTrap,
-  useHover,
-  useMergedRef,
-} from "@mantine/hooks";
-import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
+import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { useClickOutside, useFocusTrap } from "@mantine/hooks";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useEditTableItem } from "./useEditTableItem";
+import { EditableCell } from "./EditableCell";
 
 export function NameField({ name, id }: { name: string; id: number }) {
-  const { hovered, ref: hoverRef } = useHover();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   useEffect(() => setValue(name), [name, setValue]);
@@ -22,10 +17,9 @@ export function NameField({ name, id }: { name: string; id: number }) {
   const [focusInput, setFocusInput] = useState(false);
   const focusTrapRef = useFocusTrap(focusInput);
   const clickOutsideRef = useClickOutside(() => setEditing(false));
-  const containerRef = useMergedRef(hoverRef, clickOutsideRef);
   return (
     <Group
-      ref={containerRef}
+      ref={clickOutsideRef}
       justify="space-between"
       onKeyDown={(event) => {
         if (event.key === "Escape") setEditing(false);
@@ -69,12 +63,7 @@ export function NameField({ name, id }: { name: string; id: number }) {
           </Group>
         </>
       ) : (
-        <Button
-          variant="transparent"
-          rightSection={hovered && <IconPencil size="1.4rem" />}
-          fullWidth
-          justify="space-between"
-          px={0}
+        <EditableCell
           onClick={() => {
             setEditing(true);
             setFocusInput(true);
@@ -83,7 +72,7 @@ export function NameField({ name, id }: { name: string; id: number }) {
           <Text fz="sm" c="dark">
             {name}
           </Text>
-        </Button>
+        </EditableCell>
       )}
     </Group>
   );
