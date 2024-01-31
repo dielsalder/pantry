@@ -6,23 +6,15 @@ import {
   useMergedRef,
 } from "@mantine/hooks";
 import { IconCheck, IconPencil, IconX } from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { getQueryKey } from "@trpc/react-query";
 import { useEffect, useState } from "react";
-import { api } from "~/utils/api";
+import { useEditTableItem } from "./useEditTableItem";
 
 export function NameField({ name, id }: { name: string; id: number }) {
   const { hovered, ref: hoverRef } = useHover();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   useEffect(() => setValue(name), [name, setValue]);
-  const queryClient = useQueryClient();
-  const { mutateAsync, isLoading } = api.item.update.useMutation({
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(getQueryKey(api.user.items));
-      await queryClient.invalidateQueries(getQueryKey(api.item.read, id));
-    },
-  });
+  const { mutateAsync, isLoading } = useEditTableItem();
   const handleSubmit = async () => {
     await mutateAsync({ id, name: value });
     setEditing(false);
@@ -51,7 +43,7 @@ export function NameField({ name, id }: { name: string; id: number }) {
             onKeyDown={async ({ key }) => {
               if (key === "Enter") await handleSubmit();
             }}
-            data-autoFocus
+            data-autofocus
           />
           <Group gap="xs">
             <ActionIcon

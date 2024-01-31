@@ -8,7 +8,7 @@ export const userRouter = createTRPCRouter({
     const id = ctx.session.user.id;
     return ctx.db.collection.findMany({
       where: { userId: id },
-      select: { id: true },
+      select: { id: true, name: true },
     });
   }),
   foodGroups: protectedProcedure.query(({ ctx }) => {
