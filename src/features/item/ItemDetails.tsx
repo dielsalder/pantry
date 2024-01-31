@@ -28,7 +28,11 @@ export function ItemDetails({
           if (onSave) onSave();
         })}
       >
-        <TextInput label="Name" {...form.getInputProps("name")} />
+        <TextInput
+          label="Name"
+          {...form.getInputProps("name")}
+          data-autoFocus
+        />
         <Group>
           <NumberInput label="Quantity" {...form.getInputProps("quantity")} />
           <TextInput
