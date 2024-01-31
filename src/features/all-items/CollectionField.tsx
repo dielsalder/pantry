@@ -1,14 +1,6 @@
-import { useForm } from "@mantine/form";
-import { useEditItem } from "../item/useEditItem";
-import { useState } from "react";
-import { Button, Loader, Select, Text } from "@mantine/core";
+import { Button, FocusTrap, Loader, Select, Text } from "@mantine/core";
 import { IconPencil } from "@tabler/icons-react";
-import {
-  useClickOutside,
-  useDisclosure,
-  useHover,
-  useMergedRef,
-} from "@mantine/hooks";
+import { useDisclosure, useHover } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useEditTableItem } from "./useEditTableItem";
 
@@ -28,21 +20,22 @@ export function CollectionField({
     closeInput();
     if (value) await mutateAsync({ collectionId: value, id: itemId });
   };
-  const clickOutsideRef = useClickOutside(() => closeInput());
   const { data } = api.user.collections.useQuery();
   const { hovered, ref: hoverRef } = useHover();
   return (
     <div ref={hoverRef}>
       {editing ? (
         data ? (
-          <Select
-            data={data.map(({ name, id }) => ({ value: id, label: name }))}
-            value={collectionId}
-            dropdownOpened={editing}
-            onChange={handleChange}
-            // ref={clickOutsideRef}
-            onClick={toggleInput}
-          />
+          <FocusTrap>
+            <Select
+              data={data.map(({ name, id }) => ({ value: id, label: name }))}
+              value={collectionId}
+              dropdownOpened={editing}
+              onChange={handleChange}
+              onClick={toggleInput}
+              onBlur={closeInput}
+            />
+          </FocusTrap>
         ) : (
           <Loader />
         )
