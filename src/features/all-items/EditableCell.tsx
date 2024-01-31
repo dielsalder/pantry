@@ -6,6 +6,7 @@ export function EditableCell(props: ButtonProps & { onClick: () => void }) {
   const { hovered, ref } = useHover<HTMLButtonElement>();
   return (
     <Button
+      suppressHydrationWarning
       variant="transparent"
       rightSection={hovered && <IconPencil size="1.4rem" />}
       fullWidth

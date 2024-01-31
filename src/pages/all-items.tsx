@@ -9,6 +9,7 @@ import { type ItemsTableSort } from "~/server/api/routers/itemsTableSorts";
 import { FoodGroupIcon } from "~/features/settings/FoodGroupIcon";
 import { NameField } from "~/features/all-items/NameField";
 import { CollectionField } from "~/features/all-items/CollectionField";
+import { DateAdded } from "~/features/all-items/DateAdded";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -79,7 +80,10 @@ export default function AllItems() {
               accessor: "createdAt",
               sortable: true,
               title: "Date added",
-              render: ({ createdAt }) => format(createdAt, "M/dd/yyyy"),
+              width: "8rem",
+              render: ({ createdAt, id }) => (
+                <DateAdded value={createdAt} itemId={id} />
+              ),
             },
             {
               accessor: "quantity",

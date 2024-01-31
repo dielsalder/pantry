@@ -8,6 +8,7 @@ const itemSchema = z.object({
   unit: z.optional(z.nullable(z.string())),
   collectionId: z.optional(z.string()),
   foodGroups: z.optional(z.array(z.string())),
+  createdAt: z.optional(z.date()),
 });
 
 export const itemRouter = createTRPCRouter({

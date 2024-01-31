@@ -1,7 +1,5 @@
-import { FocusTrap, Loader, Select, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Loader, Select, Text } from "@mantine/core";
 import { api } from "~/utils/api";
-import { useEditTableItem } from "./useEditTableItem";
 import { EditableCell } from "./EditableCell";
 import { useField } from "./useField";
 
