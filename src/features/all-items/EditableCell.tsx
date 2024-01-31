@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@mantine/core";
+import { Button, type ButtonProps } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { IconPencil } from "@tabler/icons-react";
 

@@ -1,49 +1,45 @@
 import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
-import { useClickOutside, useFocusTrap } from "@mantine/hooks";
+import { useClickOutside } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { useEditTableItem } from "./useEditTableItem";
 import { EditableCell } from "./EditableCell";
+import { useField } from "./useField";
 
 export function NameField({ name, id }: { name: string; id: number }) {
-  const [editing, setEditing] = useState(false);
+  const { editing, focusTrapRef, open, close, mutateAsync, isLoading } =
+    useField();
   const [value, setValue] = useState(name);
   useEffect(() => setValue(name), [name, setValue]);
-  const { mutateAsync, isLoading } = useEditTableItem();
   const handleSubmit = async () => {
     await mutateAsync({ id, name: value });
-    setEditing(false);
+    close();
   };
-  const [focusInput, setFocusInput] = useState(false);
-  const focusTrapRef = useFocusTrap(focusInput);
-  const clickOutsideRef = useClickOutside(() => setEditing(false));
+  const clickOutsideRef = useClickOutside(() => close());
   return (
     <Group
       ref={clickOutsideRef}
       justify="space-between"
       onKeyDown={(event) => {
-        if (event.key === "Escape") setEditing(false);
-        else if (event.key === "Tab") setFocusInput(false);
+        if (event.key === "Escape") close();
       }}
     >
       {editing ? (
         <>
           <TextInput
-            ref={focusTrapRef}
             value={value}
             onChange={(event) => setValue(event.target.value)}
             w="6.5rem"
-            onBlur={() => setFocusInput(false)}
+            onBlur={close}
+            ref={focusTrapRef}
             onKeyDown={async ({ key }) => {
               if (key === "Enter") await handleSubmit();
             }}
-            data-autofocus
           />
           <Group gap="xs">
             <ActionIcon
               size="sm"
               variant="subtle"
-              onBlur={() => setEditing(false)}
+              onBlur={close}
               onClick={handleSubmit}
               loading={isLoading}
             >
@@ -54,21 +50,16 @@ export function NameField({ name, id }: { name: string; id: number }) {
               variant="subtle"
               onClick={() => {
                 setValue(name);
-                setEditing(false);
+                close();
               }}
-              onBlur={() => setEditing(false)}
+              onBlur={close}
             >
               <IconX />
             </ActionIcon>
           </Group>
         </>
       ) : (
-        <EditableCell
-          onClick={() => {
-            setEditing(true);
-            setFocusInput(true);
-          }}
-        >
+        <EditableCell onClick={open}>
           <Text fz="sm" c="dark">
             {name}
           </Text>

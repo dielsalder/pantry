@@ -3,6 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useEditTableItem } from "./useEditTableItem";
 import { EditableCell } from "./EditableCell";
+import { useField } from "./useField";
 
 export function CollectionField({
   collectionName,
@@ -13,8 +14,7 @@ export function CollectionField({
   collectionId: string;
   itemId: number;
 }) {
-  const [editing, { open, close, toggle }] = useDisclosure();
-  const { mutateAsync, isLoading } = useEditTableItem();
+  const { editing, close, inputProps, mutateAsync, cellProps } = useField();
   const handleChange = async (value: string | null) => {
     close();
     if (value) await mutateAsync({ collectionId: value, id: itemId });
@@ -24,21 +24,18 @@ export function CollectionField({
     <div>
       {editing ? (
         data ? (
-          <FocusTrap>
-            <Select
-              data={data.map(({ name, id }) => ({ value: id, label: name }))}
-              value={collectionId}
-              dropdownOpened={editing}
-              onChange={handleChange}
-              onClick={toggle}
-              onBlur={close}
-            />
-          </FocusTrap>
+          <Select
+            data={data.map(({ name, id }) => ({ value: id, label: name }))}
+            value={collectionId}
+            dropdownOpened={editing}
+            onChange={handleChange}
+            {...inputProps}
+          />
         ) : (
           <Loader />
         )
       ) : (
-        <EditableCell onClick={open} loading={isLoading}>
+        <EditableCell {...cellProps}>
           <Text fz="sm" c="dark">
             {collectionName}
           </Text>
