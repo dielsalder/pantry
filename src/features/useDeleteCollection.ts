@@ -6,7 +6,7 @@ export function useDeleteCollection() {
   const queryClient = useQueryClient();
   return api.collection.delete.useMutation({
     onSuccess: async () => {
-      await queryClient.invalidateQueries(getQueryKey(api.user.read));
+      await queryClient.invalidateQueries(getQueryKey(api.user.collections));
     },
   });
 }

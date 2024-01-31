@@ -61,10 +61,10 @@ function ColumnCollection({ id }: { id: string }) {
   );
 }
 export function Columns() {
-  const { data } = api.user.read.useQuery();
+  const { data } = api.user.collections.useQuery();
   return (
     <SimpleGrid cols={{ base: 1, sm: 3, lg: 4 }}>
-      {data?.collections.map(({ id }) => <ColumnCollection id={id} key={id} />)}
+      {data?.map(({ id }) => <ColumnCollection id={id} key={id} />)}
       <NewCollection />
     </SimpleGrid>
   );

@@ -89,12 +89,12 @@ function ListCollection({ id }: { id: string }) {
   );
 }
 export function List() {
-  const { data } = api.user.read.useQuery();
+  const { data } = api.user.collections.useQuery();
   useDeleteCollection();
   return (
     <Stack gap="lg">
-      <Accordion multiple defaultValue={data?.collections.map(({ id }) => id)}>
-        {data?.collections.map(({ id }) => <ListCollection id={id} key={id} />)}
+      <Accordion multiple defaultValue={data?.map(({ id }) => id)}>
+        {data?.map(({ id }) => <ListCollection id={id} key={id} />)}
       </Accordion>
       <NewCollection />
     </Stack>

@@ -4,11 +4,11 @@ import { itemsTableSorts } from "./itemsTableSorts";
 import { sortByFoodGroup } from "../helpers/sortByFoodGroup";
 const sortDirection = z.enum(["asc", "desc"]);
 export const userRouter = createTRPCRouter({
-  read: protectedProcedure.query(({ ctx }) => {
+  collections: protectedProcedure.query(({ ctx }) => {
     const id = ctx.session.user.id;
-    return ctx.db.user.findUnique({
-      where: { id },
-      include: { collections: { select: { id: true } } },
+    return ctx.db.collection.findMany({
+      where: { userId: id },
+      select: { id: true },
     });
   }),
   foodGroups: protectedProcedure.query(({ ctx }) => {

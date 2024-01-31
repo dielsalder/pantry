@@ -16,7 +16,8 @@ export function NewCollection() {
     },
   });
   const { mutate } = api.collection.create.useMutation({
-    onSuccess: () => queryClient.invalidateQueries(getQueryKey(api.user.read)),
+    onSuccess: () =>
+      queryClient.invalidateQueries(getQueryKey(api.user.collections)),
   });
   return (
     <>

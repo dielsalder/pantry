@@ -12,16 +12,13 @@ import {
   Title,
   Popover,
   Stack,
-  ActionIcon,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import {
   IconCheck,
-  IconFilter,
   IconLayoutColumns,
   IconLayoutList,
-  IconSortDescending,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { List } from "./List";
@@ -81,7 +78,7 @@ function Filter() {
 }
 export const Home = () => {
   const [layout, setLayout] = useAtom(layoutAtom);
-  const { isLoading } = api.user.read.useQuery();
+  const { isLoading } = api.user.collections.useQuery();
   const [currentSort, setSort] = useAtom(sortAtom);
   return (
     <>

@@ -1,11 +1,4 @@
-import {
-  Group,
-  TextInput,
-  Button,
-  Select,
-  useMantineTheme,
-  ColorInput,
-} from "@mantine/core";
+import { Group, TextInput, Button, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { type FoodGroup } from "@prisma/client";
 import { IconCheck } from "@tabler/icons-react";
@@ -27,7 +20,7 @@ export function NewFoodGroup({ onSubmit }: { onSubmit?: () => void }) {
   const queryClient = useQueryClient();
   const { mutate } = api.foodGroup.create.useMutation({
     onSuccess: async () => {
-      await queryClient.invalidateQueries(getQueryKey(api.user.read));
+      await queryClient.invalidateQueries(getQueryKey(api.user.collections));
       await queryClient.invalidateQueries(getQueryKey(api.user.foodGroups));
     },
   });
