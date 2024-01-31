@@ -13,15 +13,14 @@ export function CollectionField({
   collectionId: string;
   itemId: number;
 }) {
-  const [editing, { open: openInput, close: closeInput, toggle: toggleInput }] =
-    useDisclosure();
+  const [editing, { open, close, toggle }] = useDisclosure();
+  const { hovered, ref: hoverRef } = useHover();
   const { mutateAsync, isLoading } = useEditTableItem();
   const handleChange = async (value: string | null) => {
-    closeInput();
+    close();
     if (value) await mutateAsync({ collectionId: value, id: itemId });
   };
   const { data } = api.user.collections.useQuery();
-  const { hovered, ref: hoverRef } = useHover();
   return (
     <div ref={hoverRef}>
       {editing ? (
@@ -32,8 +31,8 @@ export function CollectionField({
               value={collectionId}
               dropdownOpened={editing}
               onChange={handleChange}
-              onClick={toggleInput}
-              onBlur={closeInput}
+              onClick={toggle}
+              onBlur={close}
             />
           </FocusTrap>
         ) : (
@@ -46,9 +45,7 @@ export function CollectionField({
           fullWidth
           justify="space-between"
           px={0}
-          onClick={() => {
-            openInput();
-          }}
+          onClick={open}
           loading={isLoading}
         >
           <Text fz="sm" c="dark">
