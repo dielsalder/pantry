@@ -29,7 +29,6 @@ export function NameField({ name, id }: { name: string; id: number }) {
             value={value}
             onChange={(event) => setValue(event.target.value)}
             w="6.5rem"
-            onBlur={close}
             ref={focusTrapRef}
             onKeyDown={async ({ key }) => {
               if (key === "Enter") await handleSubmit();

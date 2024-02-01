@@ -7,7 +7,13 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from "@trpc/server";
+import { inferReactQueryProcedureOptions } from "@trpc/react-query";
+import {
+  inferRouterInputs,
+  inferRouterOutputs,
+  initTRPC,
+  TRPCError,
+} from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 import superjson from "superjson";
@@ -15,6 +21,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+import { AppRouter } from "./root";
 
 /**
  * 1. CONTEXT
@@ -91,6 +98,11 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
  * "/src/server/api/routers" directory.
  */
 
+// infer the types for router
+// see https://trpc.io/docs/client/react/infer-types
+export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
 /**
  * This is how you create new routers and sub-routers in your tRPC API.
  *

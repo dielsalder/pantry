@@ -1,7 +1,6 @@
 import { useDisclosure, useFocusTrap } from "@mantine/hooks";
 import { useEditTableItem } from "./useEditTableItem";
 import { type KeyboardEvent } from "react";
-
 export function useField() {
   const [editing, { open, close, toggle }] = useDisclosure();
   const { mutateAsync, isLoading } = useEditTableItem();
