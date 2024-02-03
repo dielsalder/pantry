@@ -9,6 +9,7 @@ import { FoodGroupIcon } from "~/features/settings/FoodGroupIcon";
 import { NameField } from "~/features/all-items/NameField";
 import { CollectionField } from "~/features/all-items/CollectionField";
 import { DateAdded } from "~/features/all-items/DateAdded";
+import { Quantity } from "~/features/all-items/Quantity";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -66,7 +67,7 @@ export default function AllItems() {
             {
               accessor: "collection",
               sortable: true,
-              width: "13rem",
+              width: "10rem",
               render: ({ collection, id }) => (
                 <CollectionField
                   collectionName={collection.name}
@@ -86,6 +87,10 @@ export default function AllItems() {
             },
             {
               accessor: "quantity",
+              width: "6rem",
+              render: ({ quantity, id }) => (
+                <Quantity quantity={quantity} id={id} />
+              ),
               sortable: true,
             },
             {
