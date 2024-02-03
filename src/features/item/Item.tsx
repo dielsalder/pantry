@@ -29,7 +29,7 @@ function Quantity() {
       {isLoading && <Loader size="xs" mr="2px" />}
       <NumberInput
         ml={isLoading ? 0 : "xl"}
-        w="10rem"
+        w="8rem"
         value={data?.quantity ?? undefined}
         onChange={(value) => mutate({ id, quantity: value as number })}
         suffix={data?.unit ? ` ${data?.unit}` : ""}

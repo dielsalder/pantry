@@ -16,7 +16,7 @@ import { useOpenDeleteModal } from "./useOpenDeleteModal";
 function ColumnItem({ id }: { id: number }) {
   return (
     <Item id={id}>
-      <Group justify="space-between" align="center">
+      <Group justify="space-between" align="center" wrap="nowrap">
         <Item.Name />
         <Group align="center" gap="sm">
           <Item.Quantity />
