@@ -10,6 +10,7 @@ import { NameField } from "~/features/all-items/NameField";
 import { CollectionField } from "~/features/all-items/CollectionField";
 import { DateAdded } from "~/features/all-items/DateAdded";
 import { Quantity } from "~/features/all-items/Quantity";
+import { Unit } from "~/features/all-items/Unit";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -95,6 +96,8 @@ export default function AllItems() {
             },
             {
               accessor: "unit",
+              width: "8rem",
+              render: ({ unit, id }) => <Unit unit={unit} id={id} />,
               sortable: true,
             },
           ]}
