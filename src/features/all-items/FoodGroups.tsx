@@ -6,11 +6,9 @@ import {
   ChipGroup,
   Collapse,
   Group,
-  Loader,
   Paper,
   Pill,
   Text,
-  Transition,
 } from "@mantine/core";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { EditableCell } from "./EditableCell";
@@ -29,33 +27,23 @@ export function FoodGroups({
   // close on touch end so that the event for other input to open can fire
   const ref = useClickOutside(close, ["mouseup", "touchend"]);
   return (
-    <>
-      <Transition
-        mounted={!editing}
-        transition="skew-up"
-        exitDuration={10}
-        duration={250}
-        timingFunction="cubic"
-      >
-        {(style) => (
-          <EditableCell {...cellProps} style={style}>
-            <Group justify="flex-start" gap="2px" wrap="wrap">
-              {foodGroups.map(({ icon, name, id }) => (
-                <Pill size="sm" key={id} fw={400}>
-                  <Center>
-                    <FoodGroupIcon
-                      type={icon}
-                      size="0.8rem"
-                      style={{ marginRight: "2px" }}
-                    />
-                    {name}
-                  </Center>
-                </Pill>
-              ))}
-            </Group>
-          </EditableCell>
-        )}
-      </Transition>
+    <Group gap="xs">
+      <EditableCell {...cellProps}>
+        <Group justify="flex-start" gap="2px" wrap="wrap">
+          {foodGroups.map(({ icon, name, id }) => (
+            <Pill size="sm" key={id} fw={400}>
+              <Center>
+                <FoodGroupIcon
+                  type={icon}
+                  size="0.8rem"
+                  style={{ marginRight: "2px" }}
+                />
+                {name}
+              </Center>
+            </Pill>
+          ))}
+        </Group>
+      </EditableCell>
       <Collapse in={editing}>
         <Paper p="xs" withBorder ref={ref}>
           <Group wrap="nowrap">
@@ -77,10 +65,9 @@ export function FoodGroups({
                 ))}
               </Group>
             </ChipGroup>
-            {isLoading && <Loader size="xs" />}
           </Group>
         </Paper>
       </Collapse>
-    </>
+    </Group>
   );
 }
