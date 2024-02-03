@@ -7,7 +7,7 @@ export function EditableCell(props: ButtonProps & { onClick: () => void }) {
   return (
     <Button
       suppressHydrationWarning
-      variant="transparent"
+      variant="subtle"
       rightSection={hovered && <IconPencil size="1.4rem" />}
       fullWidth
       justify="space-between"

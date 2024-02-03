@@ -42,7 +42,7 @@ export default function AllItems() {
           fz="sm"
           verticalSpacing="xs"
           records={data as ItemPayload[]}
-          highlightOnHover
+          // highlightOnHover
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
           columns={[
