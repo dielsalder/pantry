@@ -30,7 +30,7 @@ export function FoodGroups({
   const ref = useClickOutside(close, ["mouseup", "touchend"]);
   return (
     <>
-      <Transition mounted={!editing} transition="fade" duration={20}>
+      <Transition mounted={!editing} transition="skew-up" duration={10}>
         {(style) => (
           <EditableCell {...cellProps} style={style}>
             <Group justify="flex-start" gap="2px" wrap="wrap">
