@@ -8,9 +8,9 @@ export function Unit({ unit, id }: { unit: string | null; id: number }) {
   return (
     <TextInput
       variant={focused ? "default" : "unstyled"}
-      value={unit ?? undefined}
+      defaultValue={unit ?? undefined}
       rightSection={isLoading && <Loader size="xs" />}
-      onChange={(event) => mutateAsync({ id, unit: event.target.value })}
+      onBlur={(event) => mutateAsync({ id, unit: event.target.value })}
       ref={ref}
     />
   );
