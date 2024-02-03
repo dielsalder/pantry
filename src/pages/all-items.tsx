@@ -1,16 +1,16 @@
-import { AppShell, Pill, Title, Group } from "@mantine/core";
+import { AppShell, Title } from "@mantine/core";
 import { Header } from "~/components/Header";
 import { api } from "~/utils/api";
 import { DataTable, type DataTableSortStatus } from "mantine-datatable";
 import { atom, useAtom } from "jotai";
 import { type Prisma } from "@prisma/client";
 import { type ItemsTableSort } from "~/server/api/routers/itemsTableSorts";
-import { FoodGroupIcon } from "~/features/settings/FoodGroupIcon";
 import { NameField } from "~/features/all-items/NameField";
 import { CollectionField } from "~/features/all-items/CollectionField";
 import { DateAdded } from "~/features/all-items/DateAdded";
 import { Quantity } from "~/features/all-items/Quantity";
 import { Unit } from "~/features/all-items/Unit";
+import { FoodGroups } from "~/features/all-items/FoodGroups";
 
 type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
@@ -54,16 +54,11 @@ export default function AllItems() {
             },
             {
               accessor: "foodGroups",
+              width: "14rem",
               sortable: true,
-              render: ({ foodGroups }) =>
-                foodGroups.map(({ icon, name, id }) => (
-                  <Pill size="sm" key={id}>
-                    <Group gap="2px">
-                      <FoodGroupIcon type={icon} size="0.8rem" />
-                      {name}
-                    </Group>
-                  </Pill>
-                )),
+              render: ({ foodGroups, id }) => (
+                <FoodGroups itemId={id} foodGroups={foodGroups} />
+              ),
             },
             {
               accessor: "collection",
