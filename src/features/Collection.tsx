@@ -11,6 +11,7 @@ import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";
 import { sortAtom } from "./home/sortAtom";
 import { selectedFoodGroupsAtom } from "./home/selectedFoodGroups";
+import { type Item } from "@prisma/client";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
@@ -37,7 +38,7 @@ function Name() {
 function Items({
   Component,
 }: {
-  Component: FunctionComponent<{ id: number }>;
+  Component: FunctionComponent<Partial<Item> & { id: number }>;
 }) {
   const { id } = useContext(CollectionContext);
   const sort = useAtomValue(sortAtom);
@@ -64,9 +65,7 @@ function Items({
   return isLoading ? (
     <Loader />
   ) : (
-    <Stack>
-      {data?.map((item) => <Component id={item.id} key={item.id} />)}
-    </Stack>
+    <Stack>{data?.map((item) => <Component key={item.id} {...item} />)}</Stack>
   );
 }
 

@@ -6,22 +6,44 @@ import {
   Group,
   Menu,
   Modal,
+  Pill,
   Stack,
+  Tooltip,
+  useMantineTheme,
 } from "@mantine/core";
 import { Item } from "../item/Item";
 import { Collection } from "../Collection";
-import { IconDots, IconSettings, IconTrashX } from "@tabler/icons-react";
+import {
+  IconDots,
+  IconMoodSmile,
+  IconSettings,
+  IconTrashX,
+} from "@tabler/icons-react";
 import { NewCollection } from "./NewCollection";
 import { useDeleteCollection } from "../useDeleteCollection";
 import { useOpenDeleteModal } from "./useOpenDeleteModal";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionSettings } from "./CollectionSettings";
+import { type FoodPrep } from "@prisma/client";
 
-function ListItem({ id }: { id: number }) {
+function ListItem({ id, prep }: { id: number; prep?: FoodPrep | null }) {
+  const { colors } = useMantineTheme();
   return (
     <Item id={id}>
       <Group justify="space-between" align="center" wrap="nowrap">
-        <Item.Name />
+        <Group>
+          <Item.Name />
+          {prep === "ReadyToEat" && (
+            <Tooltip label="This food is ready to eat">
+              <Pill bg={colors.lime[8]} c="white" visibleFrom="sm">
+                <Group wrap="nowrap" align="center" gap="4px">
+                  <IconMoodSmile size="0.8rem" />
+                  Ready
+                </Group>
+              </Pill>
+            </Tooltip>
+          )}
+        </Group>
         <Group align="center" gap="sm" wrap="nowrap">
           <Item.FoodGroups />
           <Item.Quantity />
