@@ -1,7 +1,10 @@
 import { useForm } from "@mantine/form";
 import {
   Button,
+  Chip,
+  ChipGroup,
   Group,
+  InputWrapper,
   NumberInput,
   Select,
   Stack,
@@ -10,6 +13,7 @@ import {
 import { FoodGroupSelect } from "../FoodGroupSelect";
 import { type FoodPrep } from "@prisma/client";
 import { api } from "~/utils/api";
+import { Input } from "postcss";
 
 type ItemInput = {
   name: string;
@@ -55,11 +59,15 @@ export function ItemDetails({
           />
         </Group>
         <FoodGroupSelect {...form.getInputProps("foodGroups")} />
-        <Select
-          label="Prep"
-          data={["Ingredient", "Partial", "Ready"]}
-          {...form.getInputProps("prep")}
-        />
+        <InputWrapper label="Prep">
+          <ChipGroup multiple={false} {...form.getInputProps("prep")}>
+            <Group>
+              <Chip value="ReadyToEat">Ready to eat</Chip>
+              <Chip value="Partial">Partial</Chip>
+              <Chip value="Ingredient">Ingredient</Chip>
+            </Group>
+          </ChipGroup>
+        </InputWrapper>
         <Select
           label="Collection"
           data={collections?.map(({ name, id }) => ({

@@ -42,7 +42,7 @@ enum FoodGroupIconType {
 enum FoodPrep {
     Ingredient
     Partial
-    Ready
+    ReadyToEat
 }
 
 model Item {
