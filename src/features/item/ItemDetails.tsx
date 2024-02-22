@@ -56,6 +56,11 @@ export function ItemDetails({
         </Group>
         <FoodGroupSelect {...form.getInputProps("foodGroups")} />
         <Select
+          label="Prep"
+          data={["Ingredient", "Partial", "Ready"]}
+          {...form.getInputProps("prep")}
+        />
+        <Select
           label="Collection"
           data={collections?.map(({ name, id }) => ({
             value: id,

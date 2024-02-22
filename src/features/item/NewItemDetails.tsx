@@ -21,6 +21,8 @@ export function NewItemDetails({
     quantity: null,
     unit: null,
     foodGroups: [],
+    collectionId,
+    prep: null,
   };
   return (
     <ItemDetails
@@ -30,29 +32,5 @@ export function NewItemDetails({
       onSave={onSave}
       initialValues={initialValues}
     />
-    // <Stack>
-    //   <form
-    //     onSubmit={form.onSubmit((data) => {
-    //       mutate({ ...data });
-    //       if (onSave) onSave();
-    //     })}
-    //   >
-    //     <TextInput label="Name" {...form.getInputProps("name")} />
-    //     <Group>
-    //       <NumberInput label="Quantity" {...form.getInputProps("quantity")} />
-    //       <TextInput
-    //         label="Unit"
-    //         {...form.getInputProps("unit")}
-    //         defaultValue={""}
-    //       />
-    //     </Group>
-    //     <FoodGroupSelect {...form.getInputProps("foodGroups")} />
-    //     <Group justify="flex-end" mt="md">
-    //       <Button variant="filled" color="blue" type="submit">
-    //         Save
-    //       </Button>
-    //     </Group>
-    //   </form>
-    // </Stack>
   );
 }

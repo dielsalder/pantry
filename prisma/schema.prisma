@@ -42,8 +42,7 @@ enum FoodGroupIconType {
 enum FoodPrep {
     Ingredient
     Partial
-    Leftovers
-    ReadyToEat
+    Ready
 }
 
 model Item {

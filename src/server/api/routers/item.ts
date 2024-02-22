@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { FoodPrep } from "@prisma/client";
 
 const itemSchema = z.object({
   name: z.optional(z.string()),
@@ -9,6 +10,7 @@ const itemSchema = z.object({
   collectionId: z.optional(z.string()),
   foodGroups: z.optional(z.array(z.string())),
   createdAt: z.optional(z.date()),
+  prep: z.optional(z.nullable(z.nativeEnum(FoodPrep))),
 });
 
 export const itemRouter = createTRPCRouter({
@@ -26,6 +28,7 @@ export const itemRouter = createTRPCRouter({
         unit: z.nullable(z.string()),
         collectionId: z.string(),
         foodGroups: z.array(z.string()),
+        prep: z.optional(z.nullable(z.nativeEnum(FoodPrep))),
       }),
     )
     .mutation(async ({ ctx, input }) => {
