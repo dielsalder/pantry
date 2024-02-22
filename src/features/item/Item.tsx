@@ -127,6 +127,7 @@ function Edit() {
           <ItemDetails
             initialValues={{
               ...data,
+              collectionId: data.collectionId,
               foodGroups: data.foodGroups.map(({ id }) => id),
             }}
             onSubmit={(values) => mutate({ ...values, id })}

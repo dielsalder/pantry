@@ -39,14 +39,11 @@ enum FoodGroupIconType {
     Bottle
 }
 
-model FoodPrep {
-    id     String  @id
-    name   String
-    Item   Item[]
-    User   User?   @relation(fields: [userId], references: [id])
-    userId String?
-
-    @@map("FoodStage")
+enum FoodPrep {
+    Ingredient
+    Partial
+    Leftovers
+    ReadyToEat
 }
 
 model Item {
@@ -55,7 +52,7 @@ model Item {
     quantity     Int?
     unit         String?
     foodGroups   FoodGroup[]
-    foodStage    FoodPrep?   @relation(fields: [foodStageId], references: [id])
+    prep         FoodPrep?   @default(Ingredient)
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
     collection   Collection  @relation(fields: [collectionId], references: [id])

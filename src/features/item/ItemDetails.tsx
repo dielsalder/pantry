@@ -1,11 +1,23 @@
 import { useForm } from "@mantine/form";
-import { Button, Group, NumberInput, Stack, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  NumberInput,
+  Select,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { FoodGroupSelect } from "../FoodGroupSelect";
+import { type FoodPrep } from "@prisma/client";
+import { api } from "~/utils/api";
+
 type ItemInput = {
   name: string;
   quantity: number | null;
   unit: string | null;
   foodGroups: string[];
+  prep: FoodPrep | null;
+  collectionId: string;
 };
 export function ItemDetails({
   onSave,
@@ -20,6 +32,7 @@ export function ItemDetails({
     initialValues,
     validate: { name: (value) => value.length < 0 },
   });
+  const { data: collections } = api.user.collections.useQuery();
   return (
     <Stack>
       <form
@@ -42,6 +55,14 @@ export function ItemDetails({
           />
         </Group>
         <FoodGroupSelect {...form.getInputProps("foodGroups")} />
+        <Select
+          label="Collection"
+          data={collections?.map(({ name, id }) => ({
+            value: id,
+            label: name,
+          }))}
+          {...form.getInputProps("collectionId")}
+        />
 
         <Group justify="flex-end" mt="md">
           <Button variant="filled" color="blue" type="submit">
