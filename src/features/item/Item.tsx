@@ -18,7 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { useAtomValue } from "jotai";
-import { selectedFoodGroupsAtom } from "../home/selectedFoodGroups";
+import { selectedFoodGroupsAtom } from "../home/filterAtoms";
 const IdContext = createContext(0);
 function Quantity() {
   const id = useContext(IdContext);

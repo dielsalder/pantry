@@ -12,20 +12,23 @@ import {
   Title,
   Popover,
   Stack,
+  MenuDivider,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import {
+  IconBowlSpoon,
   IconCheck,
   IconLayoutColumns,
   IconLayoutList,
+  IconMoodSmile,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { List } from "./List";
 import { Columns } from "./Columns";
 import { SortIcon, SortName, sortAtom } from "./sortAtom";
 import { sorts } from "~/server/api/routers/sort";
-import { selectedFoodGroupsAtom } from "./selectedFoodGroups";
+import { prepAtom, selectedFoodGroupsAtom } from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 
 const layoutAtom = atom("list");
@@ -40,6 +43,7 @@ function Filter() {
   const [selectedFoodGroups, setSelectedFoodGroups] = useAtom(
     selectedFoodGroupsAtom,
   );
+  const [prep, setPrep] = useAtom(prepAtom);
   const { data, isLoading } = api.user.foodGroups.useQuery();
   return (
     <Popover position="bottom-start" width={280}>
@@ -47,23 +51,21 @@ function Filter() {
         <Button variant="subtle">Filter</Button>
       </Popover.Target>
       <Popover.Dropdown>
-        <Stack gap="xs">
-          <Text c="var(--mantine-color-dimmed)" size="xs" fw={500}>
-            By food group
-          </Text>
+        <Menu>
+          <Menu.Label>Food group</Menu.Label>
           <ChipGroup
             multiple
             value={selectedFoodGroups}
             onChange={setSelectedFoodGroups}
           >
-            <Flex direction="row" wrap="wrap" gap="xs">
+            <Flex direction="row" wrap="wrap" gap="xs" p="xs">
               {isLoading ? (
                 <Loader />
               ) : (
                 data?.map(({ id, name, color, icon }) => (
                   <Chip key={id} value={id} color={color} size="sm">
                     <Group justify="center" gap="4px">
-                      <Text>{name}</Text>
+                      {name}
                       <FoodGroupIcon type={icon} size="1rem" />
                     </Group>
                   </Chip>
@@ -71,7 +73,25 @@ function Filter() {
               )}
             </Flex>
           </ChipGroup>
-        </Stack>
+          <MenuDivider />
+          <Menu.Label>Prep</Menu.Label>
+          <ChipGroup value={prep} multiple onChange={setPrep}>
+            <Stack p="xs" gap="xs">
+              <Chip value="Partial" color="green">
+                <Group justify="center" gap="4px">
+                  Minimal
+                  <IconBowlSpoon size="0.8rem" />
+                </Group>
+              </Chip>
+              <Chip value="ReadyToEat" color="green">
+                <Group justify="center" gap="4px">
+                  Ready to eat
+                  <IconMoodSmile size="0.8rem" />
+                </Group>
+              </Chip>
+            </Stack>
+          </ChipGroup>
+        </Menu>
       </Popover.Dropdown>
     </Popover>
   );
