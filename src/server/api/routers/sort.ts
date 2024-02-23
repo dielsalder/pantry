@@ -1,5 +1,6 @@
 export const sorts = [
   "name",
+  "prep",
   "foodGroup",
   "oldestFirst",
   "newestFirst",

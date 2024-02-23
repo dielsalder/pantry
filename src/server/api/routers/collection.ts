@@ -43,6 +43,11 @@ export const collectionRouter = createTRPCRouter({
           include,
         });
         return sortByFoodGroup(items);
+      } else if (sort === "prep") {
+        return ctx.db.item.findMany({
+          where,
+          orderBy: { prep: "desc" },
+        });
       } else if (sort === "oldestFirst") {
         return ctx.db.item.findMany({
           where,

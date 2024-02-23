@@ -3,6 +3,7 @@ import {
   IconCategory,
   IconFishBone,
   IconSortAZ,
+  IconToolsKitchen,
 } from "@tabler/icons-react";
 import { atom } from "jotai";
 import { type ApiIconProps } from "~/components/ApiIcon";
@@ -12,6 +13,8 @@ export const sortAtom = atom<Sort>("name");
 export function SortIcon({ type, ...props }: ApiIconProps<Sort>) {
   if (type === "foodGroup") {
     return <IconCategory {...props} />;
+  } else if (type === "prep") {
+    return <IconToolsKitchen {...props} />;
   } else if (type === "name") {
     return <IconSortAZ {...props} />;
   } else if (type === "oldestFirst") {
@@ -24,6 +27,7 @@ const sortNames = {
   name: "Name",
   oldestFirst: "Oldest first",
   newestFirst: "Newest first",
+  prep: "Prep",
 };
 export function SortName({ sort }: { sort: Sort }) {
   return sortNames[sort];

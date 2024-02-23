@@ -8,7 +8,6 @@ import {
   Loader,
   Menu,
   SegmentedControl,
-  Text,
   Title,
   Popover,
   Stack,
