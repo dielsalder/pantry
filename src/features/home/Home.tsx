@@ -14,7 +14,6 @@ import {
   Text,
   useMantineTheme,
   Indicator,
-  Pill,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
@@ -25,6 +24,7 @@ import {
   IconLayoutColumns,
   IconLayoutList,
   IconMoodSmile,
+  IconX,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { List } from "./List";
@@ -55,19 +55,37 @@ function Filter() {
   const numFilters = selectedFoodGroups.length + prep.length + +perishable;
   const { data, isLoading } = api.user.foodGroups.useQuery();
   const { colors } = useMantineTheme();
+  const handleClear = () => {
+    setPrep([]);
+    setPerishable(false);
+    setSelectedFoodGroups([]);
+  };
   return (
-    <Menu position="bottom-start" width={280}>
-      <Menu.Target>
-        <Indicator
-          label={numFilters}
-          size={16}
-          disabled={!numFilters}
-          offset={8}
-          radius="sm"
-        >
-          <Button variant="subtle">Filter</Button>
-        </Indicator>
-      </Menu.Target>
+    <Menu position="bottom-start" width={280} closeOnItemClick={false}>
+      <Group gap="xs" w="120" wrap="nowrap">
+        <Menu.Target>
+          <Indicator
+            label={numFilters}
+            size={16}
+            disabled={!numFilters}
+            offset={8}
+            radius="sm"
+          >
+            <Button variant="subtle">Filter</Button>
+          </Indicator>
+        </Menu.Target>
+        {numFilters > 0 && (
+          <Button
+            variant="subtle"
+            radius="xl"
+            size="sm"
+            p="xs"
+            onClick={handleClear}
+          >
+            <IconX size="1.5rem" />
+          </Button>
+        )}
+      </Group>
       <Menu.Dropdown>
         <Menu.Label>Food group</Menu.Label>
         <ChipGroup
