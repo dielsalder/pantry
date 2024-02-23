@@ -49,6 +49,12 @@ export const collectionRouter = createTRPCRouter({
           orderBy: { prep: "desc" },
           include,
         });
+      } else if (sort === "perishable") {
+        return ctx.db.item.findMany({
+          where,
+          orderBy: { perishable: "desc" },
+          include,
+        });
       } else if (sort === "oldestFirst") {
         return ctx.db.item.findMany({
           where,

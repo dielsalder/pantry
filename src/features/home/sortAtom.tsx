@@ -1,6 +1,7 @@
 import {
   IconApple,
   IconCategory,
+  IconClock,
   IconFishBone,
   IconSortAZ,
   IconToolsKitchen,
@@ -19,7 +20,11 @@ export function SortIcon({ type, ...props }: ApiIconProps<Sort>) {
     return <IconSortAZ {...props} />;
   } else if (type === "oldestFirst") {
     return <IconFishBone {...props} />;
-  } else if (type === "newestFirst") return <IconApple {...props} />;
+  } else if (type === "newestFirst") {
+    return <IconApple {...props} />;
+  } else if (type === "perishable") {
+    return <IconClock {...props} />;
+  }
 }
 
 const sortNames = {
@@ -27,6 +32,7 @@ const sortNames = {
   name: "Name",
   oldestFirst: "Oldest first",
   newestFirst: "Newest first",
+  perishable: "Perishable first",
   prep: "Prep",
 };
 export function SortName({ sort }: { sort: Sort }) {
