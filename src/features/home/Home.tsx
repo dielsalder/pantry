@@ -62,27 +62,30 @@ function Filter() {
   };
   return (
     <Menu position="bottom-start" width={280} closeOnItemClick={false}>
-      <Group gap="xs" w="120" wrap="nowrap">
+      <Group gap={2} w="90" wrap="nowrap">
         <Menu.Target>
           <Indicator
             label={numFilters}
             size={16}
             disabled={!numFilters}
-            offset={8}
+            offset={4}
             radius="sm"
+            position="middle-start"
           >
-            <Button variant="subtle">Filter</Button>
+            <Button variant="subtle" pr="xs">
+              Filter
+            </Button>
           </Indicator>
         </Menu.Target>
         {numFilters > 0 && (
           <Button
             variant="subtle"
             radius="xl"
-            size="sm"
-            p="xs"
+            size="xs"
+            px={2}
             onClick={handleClear}
           >
-            <IconX size="1.5rem" />
+            <IconX size="1.4rem" />
           </Button>
         )}
       </Group>
@@ -143,6 +146,9 @@ function Filter() {
     </Menu>
   );
 }
+function View() {
+  return <></>;
+}
 export const Home = () => {
   const [layout, setLayout] = useAtom(layoutAtom);
   const { isLoading } = api.user.collections.useQuery();
@@ -160,7 +166,7 @@ export const Home = () => {
               <Menu.Target>
                 <Button
                   variant="subtle"
-                  rightSection={<SortIcon type={currentSort} />}
+                  leftSection={<SortIcon type={currentSort} size="1.4rem" />}
                 >
                   Sort
                 </Button>
@@ -180,6 +186,7 @@ export const Home = () => {
                 ))}
               </Menu.Dropdown>
             </Menu>
+            <View />
             <SegmentedControl
               size="xs"
               visibleFrom="md"
