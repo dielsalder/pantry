@@ -12,12 +12,15 @@ import {
   Popover,
   Stack,
   MenuDivider,
+  Text,
+  useMantineTheme,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import {
   IconBowlSpoon,
   IconCheck,
+  IconClock,
   IconLayoutColumns,
   IconLayoutList,
   IconMoodSmile,
@@ -27,7 +30,11 @@ import { List } from "./List";
 import { Columns } from "./Columns";
 import { SortIcon, SortName, sortAtom } from "./sortAtom";
 import { sorts } from "~/server/api/routers/sort";
-import { prepAtom, selectedFoodGroupsAtom } from "./filterAtoms";
+import {
+  perishableAtom,
+  prepAtom,
+  selectedFoodGroupsAtom,
+} from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 
 const layoutAtom = atom("list");
@@ -43,56 +50,69 @@ function Filter() {
     selectedFoodGroupsAtom,
   );
   const [prep, setPrep] = useAtom(prepAtom);
+  const [perishable, setPerishable] = useAtom(perishableAtom);
   const { data, isLoading } = api.user.foodGroups.useQuery();
+  const { colors } = useMantineTheme();
   return (
-    <Popover position="bottom-start" width={280}>
-      <Popover.Target>
+    <Menu position="bottom-start" width={280}>
+      <Menu.Target>
         <Button variant="subtle">Filter</Button>
-      </Popover.Target>
-      <Popover.Dropdown>
-        <Menu>
-          <Menu.Label>Food group</Menu.Label>
-          <ChipGroup
-            multiple
-            value={selectedFoodGroups}
-            onChange={setSelectedFoodGroups}
-          >
-            <Flex direction="row" wrap="wrap" gap="xs" p="xs">
-              {isLoading ? (
-                <Loader />
-              ) : (
-                data?.map(({ id, name, color, icon }) => (
-                  <Chip key={id} value={id} color={color} size="sm">
-                    <Group justify="center" gap="4px">
-                      {name}
-                      <FoodGroupIcon type={icon} size="1rem" />
-                    </Group>
-                  </Chip>
-                ))
-              )}
-            </Flex>
-          </ChipGroup>
-          <MenuDivider />
-          <Menu.Label>Prep</Menu.Label>
-          <ChipGroup value={prep} multiple onChange={setPrep}>
-            <Stack p="xs" gap="xs">
-              <Chip value="Partial" color="green">
-                <Group justify="center" gap="4px">
-                  Minimal
-                  <IconBowlSpoon size="0.8rem" />
-                </Group>
-              </Chip>
-              <Chip value="ReadyToEat" color="green">
-                <Group justify="center" gap="4px">
-                  Ready to eat
-                  <IconMoodSmile size="0.8rem" />
-                </Group>
-              </Chip>
-            </Stack>
-          </ChipGroup>
-        </Menu>
-      </Popover.Dropdown>
-    </Popover>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Label>Food group</Menu.Label>
+        <ChipGroup
+          multiple
+          value={selectedFoodGroups}
+          onChange={setSelectedFoodGroups}
+        >
+          <Flex direction="row" wrap="wrap" gap="xs" p="xs">
+            {isLoading ? (
+              <Loader />
+            ) : (
+              data?.map(({ id, name, color, icon }) => (
+                <Chip key={id} value={id} color={color} size="sm">
+                  <Group justify="center" gap="4px">
+                    {name}
+                    <FoodGroupIcon type={icon} size="1rem" />
+                  </Group>
+                </Chip>
+              ))
+            )}
+          </Flex>
+        </ChipGroup>
+        <MenuDivider />
+        <Menu.Label>Prep</Menu.Label>
+        <ChipGroup value={prep} multiple onChange={setPrep}>
+          <Stack p="xs" gap="xs">
+            <Chip value="Partial" color="green">
+              <Group justify="center" gap="4px">
+                Minimal
+                <IconBowlSpoon size="0.8rem" />
+              </Group>
+            </Chip>
+            <Chip value="ReadyToEat" color="green">
+              <Group justify="center" gap="4px">
+                Ready to eat
+                <IconMoodSmile size="0.8rem" />
+              </Group>
+            </Chip>
+          </Stack>
+        </ChipGroup>
+        <Menu.Divider />
+        <Menu.Item
+          leftSection={<IconClock size="1rem" />}
+          rightSection={
+            perishable && <IconCheck size="1.4rem" color={colors.blue[5]} />
+          }
+          onClick={() => setPerishable(!perishable)}
+        >
+          Perishable
+          <Text size="xs" c="dimmed">
+            Goes bad soon
+          </Text>
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 }
 export const Home = () => {

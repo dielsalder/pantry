@@ -26,10 +26,14 @@ export const collectionRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         sort: z.optional(z.enum(sorts)),
+        perishableOnly: z.boolean(),
       }),
     )
-    .query(async ({ ctx, input: { id, sort } }) => {
-      const where = { collectionId: id };
+    .query(async ({ ctx, input: { id, sort, perishableOnly } }) => {
+      const where = {
+        collectionId: id,
+        perishable: perishableOnly ? true : undefined,
+      };
       const include = { foodGroups: true };
       if (sort === "name") {
         return ctx.db.item.findMany({

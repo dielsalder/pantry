@@ -10,7 +10,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { useAtomValue } from "jotai";
 import { sortAtom } from "./home/sortAtom";
-import { prepAtom, selectedFoodGroupsAtom } from "./home/filterAtoms";
+import {
+  perishableAtom,
+  prepAtom,
+  selectedFoodGroupsAtom,
+} from "./home/filterAtoms";
 import { type Item } from "@prisma/client";
 export const CollectionContext = React.createContext({ id: "" });
 
@@ -44,10 +48,12 @@ function Items({
   const sort = useAtomValue(sortAtom);
   const selectedFoodGroups = useAtomValue(selectedFoodGroupsAtom);
   const selectedPrep = useAtomValue(prepAtom);
+  const perishableOnly = useAtomValue(perishableAtom);
   const { data, isLoading } = api.collection.items.useQuery(
     {
       id,
       sort,
+      perishableOnly,
     },
     {
       keepPreviousData: true,
