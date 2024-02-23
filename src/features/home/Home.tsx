@@ -13,6 +13,7 @@ import {
   MenuDivider,
   Text,
   useMantineTheme,
+  Indicator,
   Pill,
 } from "@mantine/core";
 import { api } from "~/utils/api";
@@ -57,18 +58,15 @@ function Filter() {
   return (
     <Menu position="bottom-start" width={280}>
       <Menu.Target>
-        <Button
-          variant="subtle"
-          rightSection={
-            numFilters && (
-              <Pill bg="blue" c="white" size="xs">
-                {numFilters}
-              </Pill>
-            )
-          }
+        <Indicator
+          label={numFilters}
+          size={16}
+          disabled={!numFilters}
+          offset={8}
+          radius="sm"
         >
-          Filter
-        </Button>
+          <Button variant="subtle">Filter</Button>
+        </Indicator>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Food group</Menu.Label>
