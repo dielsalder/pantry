@@ -14,6 +14,7 @@ import {
 import { Item } from "../item/Item";
 import { Collection } from "../Collection";
 import {
+  IconBowlSpoon,
   IconDots,
   IconMoodSmile,
   IconSettings,
@@ -35,10 +36,20 @@ function ListItem({ id, prep }: { id: number; prep?: FoodPrep | null }) {
           <Item.Name />
           {prep === "ReadyToEat" && (
             <Tooltip label="This food is ready to eat">
-              <Pill bg={colors.lime[8]} c="white" visibleFrom="sm">
+              <Pill bg={colors.green[6]} c="white" visibleFrom="sm">
                 <Group wrap="nowrap" align="center" gap="4px">
                   <IconMoodSmile size="0.8rem" />
                   Ready
+                </Group>
+              </Pill>
+            </Tooltip>
+          )}
+          {prep === "Partial" && (
+            <Tooltip label="This food requires minimal prep">
+              <Pill bg="" c="green" visibleFrom="sm">
+                <Group wrap="nowrap" align="center" gap="4px">
+                  <IconBowlSpoon size="0.8rem" />
+                  Minimal
                 </Group>
               </Pill>
             </Tooltip>
