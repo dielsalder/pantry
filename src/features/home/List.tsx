@@ -7,7 +7,9 @@ import {
   Menu,
   Modal,
   Pill,
+  SimpleGrid,
   Stack,
+  Text,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
@@ -32,16 +34,18 @@ function ListItem({
   id,
   prep,
   perishable,
+  notes,
 }: {
   id: number;
   prep?: FoodPrep | null;
   perishable?: boolean;
+  notes?: string | null;
 }) {
   const { colors } = useMantineTheme();
   return (
     <Item id={id}>
-      <Group justify="space-between" align="center" wrap="nowrap">
-        <Group>
+      <SimpleGrid cols={2}>
+        <Group gap="xs" align="center">
           <Item.Name />
           {prep === "ReadyToEat" && (
             <Tooltip label="This food is ready to eat">
@@ -73,14 +77,19 @@ function ListItem({
               </Pill>
             </Tooltip>
           )}
+          {notes && (
+            <Text size="xs" c="dimmed" fw={300} visibleFrom="sm">
+              {notes}
+            </Text>
+          )}
         </Group>
-        <Group align="center" gap="sm" wrap="nowrap">
+        <Group align="center" gap="sm" wrap="nowrap" justify="end">
           <Item.FoodGroups />
           <Item.Quantity />
           <Item.Edit />
           <Item.Delete />
         </Group>
-      </Group>
+      </SimpleGrid>
     </Item>
   );
 }
