@@ -24,6 +24,7 @@ export function NewItemDetails({
     collectionId,
     prep: null,
     perishable: false,
+    notes: null,
   };
   return (
     <ItemDetails

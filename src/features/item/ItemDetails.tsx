@@ -10,6 +10,7 @@ import {
   Select,
   Stack,
   TextInput,
+  Textarea,
 } from "@mantine/core";
 import { FoodGroupSelect } from "../FoodGroupSelect";
 import { type FoodPrep } from "@prisma/client";
@@ -23,6 +24,7 @@ type ItemInput = {
   prep: FoodPrep | null;
   collectionId: string;
   perishable: boolean;
+  notes: string | null;
 };
 export function ItemDetails({
   onSave,
@@ -51,25 +53,30 @@ export function ItemDetails({
           {...form.getInputProps("name")}
           data-autoFocus
         />
-        <Group>
+        <Group wrap="nowrap">
           <NumberInput label="Quantity" {...form.getInputProps("quantity")} />
           <TextInput
             label="Unit"
             {...form.getInputProps("unit")}
             defaultValue={""}
           />
+          <Checkbox
+            {...form.getInputProps("perishable")}
+            label="Perishable"
+            labelPosition="right"
+            description="Does this item go bad soon?"
+          />
         </Group>
         <FoodGroupSelect {...form.getInputProps("foodGroups")} />
         <InputWrapper label="Prep">
           <ChipGroup multiple={false} {...form.getInputProps("prep")}>
-            <Group>
+            <Group wrap="nowrap" gap="xs">
               <Chip value="ReadyToEat">Ready to eat</Chip>
               <Chip value="Partial">Partial</Chip>
               <Chip value="Ingredient">Ingredient</Chip>
             </Group>
           </ChipGroup>
         </InputWrapper>
-
         <Select
           label="Collection"
           data={collections?.map(({ name, id }) => ({
@@ -79,12 +86,12 @@ export function ItemDetails({
           {...form.getInputProps("collectionId")}
         />
 
-        <Checkbox
-          my="sm"
-          {...form.getInputProps("perishable")}
-          label="Perishable"
-          labelPosition="right"
-          description="Does this item go bad soon?"
+        <Textarea
+          {...form.getInputProps("notes")}
+          value={form.values.notes ?? undefined}
+          label="Notes"
+          autosize
+          minRows={1}
         />
         <Group justify="flex-end" mt="md">
           <Button variant="filled" color="blue" type="submit">

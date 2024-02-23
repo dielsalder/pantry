@@ -12,6 +12,7 @@ const itemSchema = z.object({
   createdAt: z.optional(z.date()),
   prep: z.optional(z.nullable(z.nativeEnum(FoodPrep))),
   perishable: z.optional(z.boolean()),
+  notes: z.optional(z.nullable(z.string())),
 });
 
 export const itemRouter = createTRPCRouter({
@@ -31,6 +32,7 @@ export const itemRouter = createTRPCRouter({
         foodGroups: z.array(z.string()),
         prep: z.optional(z.nullable(z.nativeEnum(FoodPrep))),
         perishable: z.optional(z.boolean()),
+        notes: z.nullable(z.string()),
       }),
     )
     .mutation(async ({ ctx, input }) => {

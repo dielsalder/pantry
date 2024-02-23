@@ -60,6 +60,7 @@ model Item {
     userId       String?
     foodStageId  String?
     perishable   Boolean     @default(false)
+    notes        String?
 }
 
 // Necessary for Next auth
