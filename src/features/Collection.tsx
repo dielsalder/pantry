@@ -56,7 +56,7 @@ function Items({
         if (selectedFoodGroups.length) {
           filteredData = data.filter((item) => {
             for (const foodGroup of item.foodGroups) {
-              if (selectedFoodGroups.includes(foodGroup.id)) return true;
+              if (selectedFoodGroups.includes(foodGroup?.id)) return true;
             }
             return false;
           });

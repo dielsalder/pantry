@@ -47,6 +47,7 @@ export const collectionRouter = createTRPCRouter({
         return ctx.db.item.findMany({
           where,
           orderBy: { prep: "desc" },
+          include,
         });
       } else if (sort === "oldestFirst") {
         return ctx.db.item.findMany({

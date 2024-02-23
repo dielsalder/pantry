@@ -2,14 +2,12 @@ import { ActionIcon, AppShell, Burger, Grid, Menu } from "@mantine/core";
 import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
 import { signOut } from "next-auth/react";
 import { useAtomValue } from "jotai";
-import { IconLogout, IconSettings, IconUserFilled } from "@tabler/icons-react";
+import { IconLogout, IconUserFilled } from "@tabler/icons-react";
 import { type PropsWithChildren } from "react";
-import { useRouter } from "next/navigation";
 
 export function Header({ children }: PropsWithChildren) {
   const toggleNavbar = useToggleNavbar();
   const navbarOpened = useAtomValue(navbarOpenedAtom);
-  const router = useRouter();
   return (
     <AppShell.Header p="sm">
       <Grid align="center">
