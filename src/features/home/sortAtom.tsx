@@ -10,7 +10,7 @@ import { atom } from "jotai";
 import { type ApiIconProps } from "~/components/ApiIcon";
 import { type Sort } from "~/server/api/routers/sort";
 
-export const sortAtom = atom<Sort>("name");
+export const sortAtom = atom<Sort>("perishable");
 export function SortIcon({ type, ...props }: ApiIconProps<Sort>) {
   if (type === "foodGroup") {
     return <IconCategory {...props} />;
