@@ -59,6 +59,7 @@ model Item {
     User         User?       @relation(fields: [userId], references: [id])
     userId       String?
     foodStageId  String?
+    perishable   Boolean     @default(false)
 }
 
 // Necessary for Next auth

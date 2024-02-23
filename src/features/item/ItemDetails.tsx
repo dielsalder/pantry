@@ -1,6 +1,7 @@
 import { useForm } from "@mantine/form";
 import {
   Button,
+  Checkbox,
   Chip,
   ChipGroup,
   Group,
@@ -21,6 +22,7 @@ type ItemInput = {
   foodGroups: string[];
   prep: FoodPrep | null;
   collectionId: string;
+  perishable: boolean;
 };
 export function ItemDetails({
   onSave,
@@ -37,13 +39,13 @@ export function ItemDetails({
   });
   const { data: collections } = api.user.collections.useQuery();
   return (
-    <Stack>
-      <form
-        onSubmit={form.onSubmit((data) => {
-          onSubmit({ ...data });
-          if (onSave) onSave();
-        })}
-      >
+    <form
+      onSubmit={form.onSubmit((data) => {
+        onSubmit({ ...data });
+        if (onSave) onSave();
+      })}
+    >
+      <Stack gap="xs">
         <TextInput
           label="Name"
           {...form.getInputProps("name")}
@@ -67,6 +69,7 @@ export function ItemDetails({
             </Group>
           </ChipGroup>
         </InputWrapper>
+
         <Select
           label="Collection"
           data={collections?.map(({ name, id }) => ({
@@ -76,12 +79,19 @@ export function ItemDetails({
           {...form.getInputProps("collectionId")}
         />
 
+        <Checkbox
+          my="sm"
+          {...form.getInputProps("perishable")}
+          label="Perishable"
+          labelPosition="right"
+          description="Does this item go bad soon?"
+        />
         <Group justify="flex-end" mt="md">
           <Button variant="filled" color="blue" type="submit">
             Save
           </Button>
         </Group>
-      </form>
-    </Stack>
+      </Stack>
+    </form>
   );
 }

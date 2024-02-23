@@ -23,6 +23,7 @@ export function NewItemDetails({
     foodGroups: [],
     collectionId,
     prep: null,
+    perishable: false,
   };
   return (
     <ItemDetails

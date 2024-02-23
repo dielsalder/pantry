@@ -15,6 +15,7 @@ import { Item } from "../item/Item";
 import { Collection } from "../Collection";
 import {
   IconBowlSpoon,
+  IconClock,
   IconDots,
   IconMoodSmile,
   IconSettings,
@@ -27,7 +28,15 @@ import { useDisclosure } from "@mantine/hooks";
 import { CollectionSettings } from "./CollectionSettings";
 import { type FoodPrep } from "@prisma/client";
 
-function ListItem({ id, prep }: { id: number; prep?: FoodPrep | null }) {
+function ListItem({
+  id,
+  prep,
+  perishable,
+}: {
+  id: number;
+  prep?: FoodPrep | null;
+  perishable?: boolean;
+}) {
   const { colors } = useMantineTheme();
   return (
     <Item id={id}>
@@ -46,10 +55,20 @@ function ListItem({ id, prep }: { id: number; prep?: FoodPrep | null }) {
           )}
           {prep === "Partial" && (
             <Tooltip label="This food requires minimal prep">
-              <Pill bg="" c="green" visibleFrom="sm">
+              <Pill c="green" visibleFrom="sm">
                 <Group wrap="nowrap" align="center" gap="4px">
                   <IconBowlSpoon size="0.8rem" />
                   Minimal
+                </Group>
+              </Pill>
+            </Tooltip>
+          )}
+          {perishable && (
+            <Tooltip label="Eat this soon!">
+              <Pill bg={colors.yellow[3]} visibleFrom="sm" c="dark">
+                <Group wrap="nowrap" align="center" gap="4px">
+                  <IconClock size="0.8rem" />
+                  Perishable
                 </Group>
               </Pill>
             </Tooltip>
