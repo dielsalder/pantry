@@ -9,11 +9,11 @@ import {
   Menu,
   SegmentedControl,
   Title,
-  Popover,
   Stack,
   MenuDivider,
   Text,
   useMantineTheme,
+  Pill,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
@@ -51,12 +51,24 @@ function Filter() {
   );
   const [prep, setPrep] = useAtom(prepAtom);
   const [perishable, setPerishable] = useAtom(perishableAtom);
+  const numFilters = selectedFoodGroups.length + prep.length + +perishable;
   const { data, isLoading } = api.user.foodGroups.useQuery();
   const { colors } = useMantineTheme();
   return (
     <Menu position="bottom-start" width={280}>
       <Menu.Target>
-        <Button variant="subtle">Filter</Button>
+        <Button
+          variant="subtle"
+          rightSection={
+            numFilters && (
+              <Pill bg="blue" c="white" size="xs">
+                {numFilters}
+              </Pill>
+            )
+          }
+        >
+          Filter
+        </Button>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Food group</Menu.Label>
