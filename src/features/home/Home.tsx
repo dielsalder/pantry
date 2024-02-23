@@ -7,7 +7,6 @@ import {
   Group,
   Loader,
   Menu,
-  SegmentedControl,
   Title,
   Stack,
   MenuDivider,
@@ -21,9 +20,12 @@ import {
   IconBowlSpoon,
   IconCheck,
   IconClock,
-  IconLayoutColumns,
-  IconLayoutList,
+  IconEye,
   IconMoodSmile,
+  IconNotes,
+  IconNotesOff,
+  IconToolsKitchen,
+  IconToolsKitchenOff,
   IconX,
 } from "@tabler/icons-react";
 import { atom, useAtom, useAtomValue } from "jotai";
@@ -37,6 +39,7 @@ import {
   selectedFoodGroupsAtom,
 } from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
+import { notesAtom, viewPrepAtom } from "./viewAtoms";
 
 const layoutAtom = atom("list");
 export function CollectionsLayout() {
@@ -61,7 +64,7 @@ function Filter() {
     setSelectedFoodGroups([]);
   };
   return (
-    <Menu position="bottom-start" width={280} closeOnItemClick={false}>
+    <Menu width={280} closeOnItemClick={false}>
       <Group gap={2} w="90" wrap="nowrap">
         <Menu.Target>
           <Indicator
@@ -147,10 +150,41 @@ function Filter() {
   );
 }
 function View() {
-  return <></>;
+  const [notes, setNotes] = useAtom(notesAtom);
+  const [prep, setPrep] = useAtom(viewPrepAtom);
+  return (
+    <Menu>
+      <Menu.Target>
+        <Button variant="subtle" leftSection={<IconEye size="1.4rem" />}>
+          View
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item
+          leftSection={
+            notes ? <IconNotes size="1rem" /> : <IconNotesOff size="1rem" />
+          }
+          onClick={() => setNotes(!notes)}
+        >
+          Notes
+        </Menu.Item>
+        <Menu.Item
+          leftSection={
+            prep ? (
+              <IconToolsKitchen size="1rem" />
+            ) : (
+              <IconToolsKitchenOff size="1rem" />
+            )
+          }
+          onClick={() => setPrep(!prep)}
+        >
+          Prep
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
+  );
 }
 export const Home = () => {
-  const [layout, setLayout] = useAtom(layoutAtom);
   const { isLoading } = api.user.collections.useQuery();
   const [currentSort, setSort] = useAtom(sortAtom);
   return (
@@ -162,11 +196,11 @@ export const Home = () => {
           </Title>
           <Group justify="center" align="center">
             <Filter />
-            <Menu position="bottom-start">
+            <Menu>
               <Menu.Target>
                 <Button
                   variant="subtle"
-                  leftSection={<SortIcon type={currentSort} size="1.4rem" />}
+                  leftSection={<SortIcon type={currentSort} size="1.2rem" />}
                 >
                   Sort
                 </Button>
@@ -187,7 +221,7 @@ export const Home = () => {
               </Menu.Dropdown>
             </Menu>
             <View />
-            <SegmentedControl
+            {/* <SegmentedControl
               size="xs"
               visibleFrom="md"
               value={layout}
@@ -196,7 +230,7 @@ export const Home = () => {
                 { label: <IconLayoutList />, value: "list" },
                 { label: <IconLayoutColumns />, value: "column" },
               ]}
-            />
+            /> */}
           </Group>
         </Group>
       </Header>

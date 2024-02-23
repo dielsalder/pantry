@@ -29,6 +29,8 @@ import { useOpenDeleteModal } from "./useOpenDeleteModal";
 import { useDisclosure } from "@mantine/hooks";
 import { CollectionSettings } from "./CollectionSettings";
 import { type FoodPrep } from "@prisma/client";
+import { useAtomValue } from "jotai";
+import { notesAtom, viewPrepAtom } from "./viewAtoms";
 
 function ListItem({
   id,
@@ -42,12 +44,14 @@ function ListItem({
   notes?: string | null;
 }) {
   const { colors } = useMantineTheme();
+  const viewNotes = useAtomValue(notesAtom);
+  const viewPrep = useAtomValue(viewPrepAtom);
   return (
     <Item id={id}>
       <SimpleGrid cols={2}>
         <Group gap="xs" align="center">
           <Item.Name />
-          {prep === "ReadyToEat" && (
+          {prep === "ReadyToEat" && viewPrep && (
             <Tooltip label="This food is ready to eat">
               <Pill bg={colors.green[6]} c="white" visibleFrom="sm">
                 <Group wrap="nowrap" align="center" gap="4px">
@@ -57,7 +61,7 @@ function ListItem({
               </Pill>
             </Tooltip>
           )}
-          {prep === "Partial" && (
+          {prep === "Partial" && viewPrep && (
             <Tooltip label="This food requires minimal prep">
               <Pill c="green" visibleFrom="sm">
                 <Group wrap="nowrap" align="center" gap="4px">
@@ -77,7 +81,7 @@ function ListItem({
               </Pill>
             </Tooltip>
           )}
-          {notes && (
+          {viewNotes && (
             <Text size="xs" c="dimmed" fw={300} visibleFrom="sm">
               {notes}
             </Text>
