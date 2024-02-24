@@ -1,13 +1,21 @@
-import { ActionIcon, AppShell, Burger, Grid, Menu } from "@mantine/core";
+import {
+  ActionIcon,
+  AppShell,
+  Burger,
+  Grid,
+  Menu,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
 import { signOut } from "next-auth/react";
 import { useAtomValue } from "jotai";
-import { IconLogout, IconUserFilled } from "@tabler/icons-react";
+import { IconLogout, IconMoonStars, IconUserFilled } from "@tabler/icons-react";
 import { type PropsWithChildren } from "react";
 
 export function Header({ children }: PropsWithChildren) {
   const toggleNavbar = useToggleNavbar();
   const navbarOpened = useAtomValue(navbarOpenedAtom);
+  const { toggleColorScheme } = useMantineColorScheme();
   return (
     <AppShell.Header p="sm">
       <Grid align="center">
@@ -19,7 +27,7 @@ export function Header({ children }: PropsWithChildren) {
           <Menu>
             <Menu.Target>
               <ActionIcon variant="subtle">
-                <IconUserFilled />
+                <IconUserFilled size="1.4rem" />
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
@@ -30,6 +38,12 @@ export function Header({ children }: PropsWithChildren) {
                 }}
               >
                 Sign out
+              </Menu.Item>
+              <Menu.Item
+                leftSection={<IconMoonStars />}
+                onClick={toggleColorScheme}
+              >
+                Toggle dark mode
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
