@@ -41,7 +41,7 @@ import {
 } from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { notesAtom, viewPrepAtom } from "./viewAtoms";
-import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
+import { navbarOpenedAtom } from "~/components/Layout";
 import { useRouter } from "next/navigation";
 
 const layoutAtom = atom("list");
@@ -173,7 +173,11 @@ function View() {
   return (
     <Menu>
       <Menu.Target>
-        <Button variant="subtle" leftSection={<IconEye size="1.4rem" />}>
+        <Button
+          variant="subtle"
+          leftSection={<IconEye size="1.4rem" />}
+          visibleFrom="md"
+        >
           View
         </Button>
       </Menu.Target>
