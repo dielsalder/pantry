@@ -13,6 +13,7 @@ import {
   Text,
   useMantineTheme,
   Indicator,
+  Anchor,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
@@ -28,7 +29,7 @@ import {
   IconToolsKitchenOff,
   IconX,
 } from "@tabler/icons-react";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { List } from "./List";
 import { Columns } from "./Columns";
 import { SortIcon, SortName, sortAtom } from "./sortAtom";
@@ -40,6 +41,8 @@ import {
 } from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { notesAtom, viewPrepAtom } from "./viewAtoms";
+import { navbarOpenedAtom, useToggleNavbar } from "~/components/Layout";
+import { useRouter } from "next/navigation";
 
 const layoutAtom = atom("list");
 export function CollectionsLayout() {
@@ -62,6 +65,12 @@ function Filter() {
     setPrep([]);
     setPerishable(false);
     setSelectedFoodGroups([]);
+  };
+  const router = useRouter();
+  const setNavbarOpened = useSetAtom(navbarOpenedAtom);
+  const handleClickSettings = () => {
+    router.push("/settings");
+    setNavbarOpened(true);
   };
   return (
     <Menu width={280} closeOnItemClick={false}>
@@ -103,14 +112,23 @@ function Filter() {
             {isLoading ? (
               <Loader />
             ) : (
-              data?.map(({ id, name, color, icon }) => (
-                <Chip key={id} value={id} color={color} size="sm">
-                  <Group justify="center" gap="4px">
-                    {name}
-                    <FoodGroupIcon type={icon} size="1rem" />
-                  </Group>
-                </Chip>
-              ))
+              <>
+                {data?.length === 0 && (
+                  <Text c="dark" size="xs" ml="2px">
+                    No food groups yet. Visit{" "}
+                    <Anchor onClick={handleClickSettings}>Settings</Anchor> to
+                    create some.
+                  </Text>
+                )}
+                {data?.map(({ id, name, color, icon }) => (
+                  <Chip key={id} value={id} color={color} size="sm">
+                    <Group justify="center" gap="4px">
+                      {name}
+                      <FoodGroupIcon type={icon} size="1rem" />
+                    </Group>
+                  </Chip>
+                ))}
+              </>
             )}
           </Flex>
         </ChipGroup>
