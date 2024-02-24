@@ -11,6 +11,10 @@ import {
   Stack,
   TextInput,
   Textarea,
+  Text,
+  RadioGroup,
+  Radio,
+  Tooltip,
 } from "@mantine/core";
 import { FoodGroupSelect } from "../FoodGroupSelect";
 import { type FoodPrep } from "@prisma/client";
@@ -40,6 +44,7 @@ export function ItemDetails({
     validate: { name: (value) => value.length < 0 },
   });
   const { data: collections } = api.user.collections.useQuery();
+  const { data: foodGroups } = api.user.foodGroups.useQuery();
   return (
     <form
       onSubmit={form.onSubmit((data) => {
@@ -60,23 +65,37 @@ export function ItemDetails({
             {...form.getInputProps("unit")}
             defaultValue={""}
           />
-          <Checkbox
-            {...form.getInputProps("perishable")}
-            label="Perishable"
-            labelPosition="right"
-            description="Does this item go bad soon?"
-          />
         </Group>
-        <FoodGroupSelect {...form.getInputProps("foodGroups")} />
-        <InputWrapper label="Prep">
-          <ChipGroup multiple={false} {...form.getInputProps("prep")}>
-            <Group wrap="nowrap" gap="xs">
-              <Chip value="ReadyToEat">Ready to eat</Chip>
-              <Chip value="Partial">Partial</Chip>
-              <Chip value="Ingredient">Ingredient</Chip>
+        <InputWrapper label="Food groups">
+          <ChipGroup multiple {...form.getInputProps("foodGroups")}>
+            <Group justify="flex-start" gap="xs" wrap="wrap">
+              {foodGroups?.map(({ id, name, color }) => (
+                <Chip key={id} value={id} color={color} size="sm">
+                  <Group justify="center" gap="2px">
+                    <Text size="sm">{name}</Text>
+                  </Group>
+                </Chip>
+              ))}
             </Group>
           </ChipGroup>
         </InputWrapper>
+        <RadioGroup name="prep" label="Prep" {...form.getInputProps("prep")}>
+          <Group wrap="nowrap" align="start">
+            <Radio value="ReadyToEat" label="Ready" labelPosition="right" />
+            <Radio value="Partial" label="Partial" labelPosition="right" />
+            <Radio
+              value="Ingredient"
+              label="Ingredient"
+              labelPosition="right"
+            />
+            <Checkbox
+              {...form.getInputProps("perishable")}
+              label="Perishable"
+              labelPosition="right"
+              description="Does this item go bad soon?"
+            />
+          </Group>
+        </RadioGroup>
         <Select
           label="Collection"
           data={collections?.map(({ name, id }) => ({
