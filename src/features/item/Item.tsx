@@ -63,7 +63,7 @@ function Delete() {
       onClick={() => mutate(id)}
       loading={isLoading}
     >
-      <IconTrash />
+      <IconTrash size="1.4rem" />
     </ActionIcon>
   );
 }
@@ -120,7 +120,7 @@ function Edit() {
         onClick={open}
         loading={isLoading}
       >
-        <IconPencil />
+        <IconPencil size="1.4rem" />
       </ActionIcon>
       <Modal opened={opened} onClose={close} my="lg" title="Edit item">
         {data ? (
