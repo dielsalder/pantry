@@ -33,13 +33,14 @@ function Quantity() {
         value={data?.quantity ?? undefined}
         onChange={(value) => mutate({ id, quantity: value as number })}
         suffix={data?.unit ? ` ${data?.unit}` : ""}
-        visibleFrom="md"
+        visibleFrom="sm"
       />
       <NumberInput
         w="4rem"
         value={data?.quantity ?? undefined}
         onChange={(value) => mutate({ id, quantity: value as number })}
         hiddenFrom="md"
+        hideControls
       />
     </>
   );
@@ -74,7 +75,7 @@ function FoodGroups() {
   const selected = useAtomValue(selectedFoodGroupsAtom);
   return (
     <>
-      <Group visibleFrom="sm">
+      <Group visibleFrom="md">
         {data?.foodGroups.map(({ icon, id, name, color }) => (
           <Tooltip label={name} key={id} openDelay={200}>
             <Pill size="md" py={2} bg={selected.includes(id) ? color : ""}>
@@ -91,7 +92,7 @@ function FoodGroups() {
           </Tooltip>
         ))}
       </Group>
-      <Group hiddenFrom="sm" gap="2px" justify="flex-end">
+      <Group visibleFrom="sm" hiddenFrom="md" gap="2px" justify="flex-end">
         {data?.foodGroups.map(({ icon, id, color }) => (
           <FoodGroupIcon
             key={id}

@@ -213,7 +213,7 @@ export const Home = () => {
     <>
       <Header>
         <Group justify="space-between">
-          <Title order={2} size="h3">
+          <Title order={2} size="h3" visibleFrom="xs">
             Home
           </Title>
           <Group justify="center" align="center">
