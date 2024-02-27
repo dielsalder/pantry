@@ -44,14 +44,6 @@ import { notesAtom, viewPrepAtom } from "./viewAtoms";
 import { navbarOpenedAtom } from "~/components/Layout";
 import { useRouter } from "next/navigation";
 
-const layoutAtom = atom("list");
-export function CollectionsLayout() {
-  const layout = useAtomValue(layoutAtom);
-  if (layout === "list") return <List />;
-  else if (layout === "column") return <Columns />;
-  else return null;
-}
-
 function Filter() {
   const [selectedFoodGroups, setSelectedFoodGroups] = useAtom(
     selectedFoodGroupsAtom,
@@ -243,22 +235,10 @@ export const Home = () => {
               </Menu.Dropdown>
             </Menu>
             <View />
-            {/* <SegmentedControl
-              size="xs"
-              visibleFrom="md"
-              value={layout}
-              onChange={setLayout}
-              data={[
-                { label: <IconLayoutList />, value: "list" },
-                { label: <IconLayoutColumns />, value: "column" },
-              ]}
-            /> */}
           </Group>
         </Group>
       </Header>
-      <AppShell.Main>
-        {isLoading ? <Loader /> : <CollectionsLayout />}
-      </AppShell.Main>
+      <AppShell.Main>{isLoading ? <Loader /> : <List />}</AppShell.Main>
     </>
   );
 };
