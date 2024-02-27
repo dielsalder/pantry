@@ -157,7 +157,7 @@ export function List() {
   const { data } = api.user.collections.useQuery();
   useDeleteCollection();
   return (
-    <Stack gap="lg">
+    <Stack>
       <Accordion multiple defaultValue={data?.map(({ id }) => id)}>
         {data?.map(({ id }) => <ListCollection id={id} key={id} />)}
       </Accordion>

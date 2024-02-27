@@ -14,6 +14,7 @@ import {
   useMantineTheme,
   Indicator,
   Anchor,
+  Box,
 } from "@mantine/core";
 import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
@@ -29,9 +30,8 @@ import {
   IconToolsKitchenOff,
   IconX,
 } from "@tabler/icons-react";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { List } from "./List";
-import { Columns } from "./Columns";
 import { SortIcon, SortName, sortAtom } from "./sortAtom";
 import { sorts } from "~/server/api/routers/sort";
 import {
@@ -43,6 +43,7 @@ import { FoodGroupIcon } from "../settings/FoodGroupIcon";
 import { notesAtom, viewPrepAtom } from "./viewAtoms";
 import { navbarOpenedAtom } from "~/components/Layout";
 import { useRouter } from "next/navigation";
+import { compactAtom } from "./layoutAtoms";
 
 function Filter() {
   const [selectedFoodGroups, setSelectedFoodGroups] = useAtom(
@@ -162,8 +163,9 @@ function Filter() {
 function View() {
   const [notes, setNotes] = useAtom(notesAtom);
   const [prep, setPrep] = useAtom(viewPrepAtom);
+  const [compact, toggleCompact] = useAtom(compactAtom);
   return (
-    <Menu>
+    <Menu closeOnItemClick={false}>
       <Menu.Target>
         <Button
           variant="subtle"
@@ -193,6 +195,13 @@ function View() {
           onClick={() => setPrep(!prep)}
         >
           Prep
+        </Menu.Item>
+        <Menu.Label>Layout</Menu.Label>
+        <Menu.Item
+          leftSection={compact ? <IconCheck size="1rem" /> : <Box w="1rem" />}
+          onClick={() => toggleCompact()}
+        >
+          Compact
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

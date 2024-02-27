@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconPencil } from "@tabler/icons-react";
 import { ItemDetails } from "../item/ItemDetails";
 import { useEditItem } from "../item/useEditItem";
-import { ItemPayload } from "~/pages/all-items";
+import { type ItemPayload } from "~/pages/all-items";
 
 export const Actions = (item: ItemPayload) => {
   const [opened, { open, close }] = useDisclosure();

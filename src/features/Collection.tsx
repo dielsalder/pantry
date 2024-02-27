@@ -10,6 +10,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { api } from "~/utils/api";
 import { type Item } from "@prisma/client";
 import { useCollectionItems } from "./useCollectionItems";
+import { useAtomValue } from "jotai";
+import { compactAtom } from "./home/layoutAtoms";
 export const CollectionContext = React.createContext({ id: "" });
 
 function NewItem() {
@@ -38,12 +40,15 @@ function Items({
 }: {
   Component: FunctionComponent<Partial<Item> & { id: number }>;
 }) {
+  const compact = useAtomValue(compactAtom);
   const { id } = useContext(CollectionContext);
   const { data, isLoading } = useCollectionItems(id);
   return isLoading ? (
     <Loader />
   ) : (
-    <Stack>{data?.map((item) => <Component key={item.id} {...item} />)}</Stack>
+    <Stack gap={compact ? "sm" : "lg"}>
+      {data?.map((item) => <Component key={item.id} {...item} />)}
+    </Stack>
   );
 }
 
