@@ -26,6 +26,8 @@ import {
   IconMoodSmile,
   IconNotes,
   IconNotesOff,
+  IconTags,
+  IconTagsOff,
   IconToolsKitchen,
   IconToolsKitchenOff,
   IconX,
@@ -40,7 +42,7 @@ import {
   selectedFoodGroupsAtom,
 } from "./filterAtoms";
 import { FoodGroupIcon } from "../settings/FoodGroupIcon";
-import { notesAtom, viewPrepAtom } from "./viewAtoms";
+import { notesAtom, viewFoodGroupsAtom, viewPrepAtom } from "./viewAtoms";
 import { navbarOpenedAtom } from "~/components/Layout";
 import { useRouter } from "next/navigation";
 import { compactAtom } from "./layoutAtoms";
@@ -164,6 +166,7 @@ function View() {
   const [notes, setNotes] = useAtom(notesAtom);
   const [prep, setPrep] = useAtom(viewPrepAtom);
   const [compact, toggleCompact] = useAtom(compactAtom);
+  const [foodGroups, toggleFoodGroups] = useAtom(viewFoodGroupsAtom);
   return (
     <Menu closeOnItemClick={false}>
       <Menu.Target>
@@ -195,6 +198,14 @@ function View() {
           onClick={() => setPrep(!prep)}
         >
           Prep
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => toggleFoodGroups()}
+          leftSection={
+            foodGroups ? <IconTags size="1rem" /> : <IconTagsOff size="1rem" />
+          }
+        >
+          Food groups
         </Menu.Item>
         <Menu.Label>Layout</Menu.Label>
         <Menu.Item

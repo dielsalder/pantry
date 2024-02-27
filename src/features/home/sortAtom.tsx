@@ -1,9 +1,9 @@
 import {
   IconApple,
-  IconCategory,
   IconClock,
   IconFishBone,
   IconSortAZ,
+  IconTags,
   IconToolsKitchen,
 } from "@tabler/icons-react";
 import { atom } from "jotai";
@@ -13,7 +13,7 @@ import { type Sort } from "~/server/api/routers/sort";
 export const sortAtom = atom<Sort>("perishable");
 export function SortIcon({ type, ...props }: ApiIconProps<Sort>) {
   if (type === "foodGroup") {
-    return <IconCategory {...props} />;
+    return <IconTags {...props} />;
   } else if (type === "prep") {
     return <IconToolsKitchen {...props} />;
   } else if (type === "name") {

@@ -30,7 +30,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { CollectionSettings } from "./CollectionSettings";
 import { type FoodPrep } from "@prisma/client";
 import { useAtomValue } from "jotai";
-import { notesAtom, viewPrepAtom } from "./viewAtoms";
+import { notesAtom, viewFoodGroupsAtom, viewPrepAtom } from "./viewAtoms";
 
 function ListItem({
   id,
@@ -46,6 +46,7 @@ function ListItem({
   const { colors } = useMantineTheme();
   const viewNotes = useAtomValue(notesAtom);
   const viewPrep = useAtomValue(viewPrepAtom);
+  const viewFoodGroups = useAtomValue(viewFoodGroupsAtom);
   return (
     <Item id={id}>
       <SimpleGrid cols={2}>
@@ -88,7 +89,7 @@ function ListItem({
           )}
         </Group>
         <Group align="center" gap="sm" wrap="nowrap" justify="end">
-          <Item.FoodGroups />
+          {viewFoodGroups && <Item.FoodGroups />}
           <Item.Quantity />
           <Item.Edit />
           <Item.Delete />
