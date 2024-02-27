@@ -11,8 +11,9 @@ import { DateAdded } from "~/features/all-items/DateAdded";
 import { Quantity } from "~/features/all-items/Quantity";
 import { Unit } from "~/features/all-items/Unit";
 import { FoodGroups } from "~/features/all-items/FoodGroups";
+import { Actions } from "~/features/all-items/Actions";
 
-type ItemPayload = Prisma.ItemGetPayload<{
+export type ItemPayload = Prisma.ItemGetPayload<{
   include: { name: true; createdAt: true; collection: true; foodGroups: true };
 }>;
 const sortStatusAtom = atom<DataTableSortStatus<ItemPayload>>({
@@ -94,6 +95,11 @@ export default function AllItems() {
               width: "8rem",
               render: ({ unit, id }) => <Unit unit={unit} id={id} />,
               sortable: true,
+            },
+            {
+              accessor: "actions",
+              title: "",
+              render: (item) => <Actions {...item} />,
             },
           ]}
         />

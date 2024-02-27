@@ -10,6 +10,7 @@ export function useEditItem() {
       await queryClient.cancelQueries({ queryKey });
       await queryClient.invalidateQueries({ queryKey });
       await queryClient.invalidateQueries(getQueryKey(api.collection));
+      await queryClient.invalidateQueries(getQueryKey(api.user.items));
     },
   });
 }
